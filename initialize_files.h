@@ -12,7 +12,7 @@ void insert_employees_file()
         return;
     }
 
-    employees_file<<"coffee_shop_name,coffee_shop_address,employee_name,employee_surname,position,shift_start,shift_end"<<endl;
+    employees_file<<"coffee_shop_name,coffee_shop_address,employee_name,employee_surname,position,salary,shift_start,shift_end"<<endl;
     employees_file.close();
 }
 

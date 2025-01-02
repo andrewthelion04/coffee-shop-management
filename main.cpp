@@ -1,8 +1,12 @@
 #include<iostream>
 #include<fstream>
+#include <utility>
 #include<vector>
 #include<sstream>
 #include "initialize_files.h"
+#include "positions/Barista.h"
+#include "positions/Waiter.h"
+#include "positions/Manager.h"
 
 using namespace std;
 
@@ -12,10 +16,7 @@ private:
     string coffee_shop_city;
 
 public:
-    CoffeeShops(string coffee_shop_address, string coffee_shop_city) {
-        this->coffee_shop_address = coffee_shop_address;
-        this->coffee_shop_city = coffee_shop_city;
-    }
+    CoffeeShops(string coffee_shop_address, string coffee_shop_city) : CoffeeShops(coffee_shop_address, coffee_shop_city) {}
 
     string get_coffee_shop_address() {
         return coffee_shop_address;
@@ -25,6 +26,7 @@ public:
         return coffee_shop_city;
     }
 
+    ~CoffeeShops() = default;
 };
 
 
@@ -177,6 +179,7 @@ public:
         return &coffee_shops[choice - 1];
     }
 
+    ~CoffeeShopManager() = default;
 };
 
 
