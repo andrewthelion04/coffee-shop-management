@@ -10,11 +10,15 @@ private:
     string position = "Manager";
 
 public:
-    Manager(string name, string surname, string start_shift, string end_shift, string position, float salary, int num_coffees_made)
+    Manager(string name, string surname, string start_shift, string end_shift, string position, float salary)
         : Position(name, surname, start_shift, end_shift, position, salary) {}
 
+    string get_position() const override {
+        return position;
+    }
 
-    static float calculate_salary() override {
+
+    float calculate_salary() const override {
         return salary;
     }
 };

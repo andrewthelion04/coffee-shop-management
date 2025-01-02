@@ -18,10 +18,10 @@ public:
     Position(string name, string surname, string start_shift, string end_shift, string position, float salary)
         : Position(name, surname, start_shift, end_shift, position, salary) {}
 
-    virtual ~Position() = default;
 
-    virtual void display_info() const = 0;
     virtual float calculate_salary() const = 0;
+
+    virtual string get_position() const = 0;
 
     string get_name() const {
         return name;

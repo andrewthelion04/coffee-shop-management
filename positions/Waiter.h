@@ -16,8 +16,13 @@ private:
     int daily_orders;
     double tips;
 public:
+
     Waiter(string name, string surname, string start_shift, string end_shift, string position, float salary)
         : Position(name, surname, start_shift, end_shift, position, salary) {}
+
+    string get_position() const override {
+        return position;
+    }
 
     void generate_daily_orders() {
         random_device rd;

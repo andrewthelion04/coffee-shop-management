@@ -14,8 +14,12 @@ private:
     int num_coffees_made;
 
 public:
-    Barista(string name, string surname, string start_shift, string end_shift, string position, float salary, int num_coffees_made)
+    Barista(string name, string surname, string start_shift, string end_shift, string position, float salary)
         : Position(name, surname, start_shift, end_shift, position, salary) {}
+
+    string get_position() const override {
+        return position;
+    }
 
     void generate_coffee_count() {
         random_device rd;
@@ -25,6 +29,7 @@ public:
     }
 
     float calculate_salary() const override {
+
         double bonus = num_coffees_made * 0.8;
         return salary + bonus;
     }

@@ -12,7 +12,7 @@ void insert_employees_file()
         return;
     }
 
-    employees_file<<"coffee_shop_name,coffee_shop_address,employee_name,employee_surname,position,salary,shift_start,shift_end"<<endl;
+    employees_file<<"coffee_shop_city,coffee_shop_address,employee_name,employee_surname,position,salary,shift_start,shift_end"<<endl;
     employees_file.close();
 }
 
@@ -26,7 +26,7 @@ void insert_products_file()
         return;
     }
 
-    products_file<<"coffee_shop_name,coffee_shop_address,type,name,price,quantity"<<endl;
+    products_file<<"coffee_shop_city,coffee_shop_address,type,name,price,quantity"<<endl;
     products_file.close();
 }
 
@@ -40,7 +40,7 @@ void insert_orders_file()
         return;
     }
 
-    orders_file<<"coffee_shop_name,coffee_shop_address,client_name,product_name,quantity,price"<<endl;
+    orders_file<<"coffee_shop_city,coffee_shop_address,client_name,product_name,quantity,price"<<endl;
     orders_file.close();
 }
 
@@ -54,7 +54,7 @@ void insert_special_events_file()
         return;
     }
 
-    special_events_file<<"coffee_shop_name,coffee_shop_address,event_name,event_date,event_description"<<endl;
+    special_events_file<<"coffee_shop_city,coffee_shop_address,event_name,event_date,event_description"<<endl;
     special_events_file.close();
 }
 
@@ -68,7 +68,7 @@ void insert_reports_file()
         return;
     }
 
-    reports_file<<"date,total_cost_products,employees_salaries,total_sales"<<endl;
+    reports_file<<"coffee_shop_city,coffee_shop_address,date,total_cost_products,employees_salaries,total_sales"<<endl;
     reports_file.close();
 }
 
