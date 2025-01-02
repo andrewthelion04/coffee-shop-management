@@ -4,4 +4,5 @@ project(coffee_shop_management)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(coffee_shop_management
-    main.cpp)
+    main.cpp
+        initialize_files.h)
