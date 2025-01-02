@@ -5,7 +5,7 @@ using namespace std;
 void insert_employees_file()
 {
     ofstream employees_file;
-    employees_file.open("employees.csv", ios::app);
+    employees_file.open("employees.csv");
     if(!employees_file.is_open())
     {
         cout<<"Error: File not opened"<<endl;
@@ -19,7 +19,7 @@ void insert_employees_file()
 void insert_products_file()
 {
     ofstream products_file;
-    products_file.open("products.csv", ios::app);
+    products_file.open("products.csv");
     if(!products_file.is_open())
     {
         cout<<"Error: File not opened"<<endl;
@@ -33,7 +33,7 @@ void insert_products_file()
 void insert_orders_file()
 {
     ofstream orders_file;
-    orders_file.open("orders.csv", ios::app);
+    orders_file.open("orders.csv");
     if(!orders_file.is_open())
     {
         cout<<"Error: File not opened"<<endl;
@@ -47,7 +47,7 @@ void insert_orders_file()
 void insert_special_events_file()
 {
     ofstream special_events_file;
-    special_events_file.open("special_events.csv", ios::app);
+    special_events_file.open("special_events.csv");
     if(!special_events_file.is_open())
     {
         cout<<"Error: File not opened"<<endl;
@@ -61,7 +61,7 @@ void insert_special_events_file()
 void insert_reports_file()
 {
     ofstream reports_file;
-    reports_file.open("reports.csv", ios::app);
+    reports_file.open("reports.csv");
     if(!reports_file.is_open())
     {
         cout<<"Error: File not opened"<<endl;
@@ -74,7 +74,7 @@ void insert_reports_file()
 
 void insert_coffee_shops_file() {
     ofstream coffee_shops_file;
-    coffee_shops_file.open("coffee_shops.csv", ios::app);
+    coffee_shops_file.open("coffee_shops.csv");
     if(!coffee_shops_file.is_open())
     {
         cout<<"Error: File not opened"<<endl;
