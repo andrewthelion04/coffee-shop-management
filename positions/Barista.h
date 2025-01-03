@@ -33,6 +33,8 @@ public:
         double bonus = num_coffees_made * 0.8;
         return salary + bonus;
     }
+
+    ~Barista() = default;
 };
 
 

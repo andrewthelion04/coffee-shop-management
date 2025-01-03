@@ -21,6 +21,7 @@ public:
     float calculate_salary() const override {
         return salary;
     }
+    ~Manager() = default;
 };
 
 #endif //MANAGER_H

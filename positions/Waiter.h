@@ -43,6 +43,7 @@ public:
         double bonus = daily_orders * 0.8;
         return salary + tips + bonus;
     }
+    ~Waiter() = default;
 };
 
 #endif //WAITER_H

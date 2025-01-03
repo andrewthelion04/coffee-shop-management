@@ -7,6 +7,7 @@
 #include "../positions/Waiter.h"
 #include "../positions/Manager.h"
 #include "../products/Product.h"
+#include "../orders/Client.h"
 #include<fstream>
 #include<sstream>
 #include<vector>
@@ -19,6 +20,7 @@ private:
     string coffee_shop_city;
     vector<Employee*> employees;
     vector<Product*> products;
+    vector<Client*> clients;
 
 public:
     CoffeeShop(string coffee_shop_address, string coffee_shop_city) : coffee_shop_address(coffee_shop_address), coffee_shop_city(coffee_shop_city) {}
@@ -109,6 +111,10 @@ public:
     }
 
     void remove_employee() {
+        if(employees.empty()) {
+            throw "There are no employees!\n";
+        }
+
         string name, surname, position;
         cout << "Removing an employee from the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << "!" << endl;
 
@@ -249,6 +255,10 @@ public:
     }
 
     void delete_product() {
+        if(products.empty()) {
+            throw "There are no products!\n";
+        }
+
         string product_name, type;
         int type_choice;
         cout << "Removing a product from the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << "!" << endl;
@@ -339,8 +349,185 @@ public:
         }
     }
 
+    void place_order() {
+    string client_name;
+    cout << "Order placement!" << endl;
+    cout << "Insert the client's full name: ";
+    getline(cin, client_name);
 
-    void display_employees_information(string coffee_shop_city, string coffee_shop_address) {
+    Client* client = nullptr;
+    for (auto* c : clients) {
+        if (c->get_name() == client_name) {
+            client = c;
+            break;
+        }
+    }
+
+    if (!client) {
+        client = new Client(client_name);
+        clients.push_back(client);
+    }
+
+    client_order(client);
+}
+
+void client_order(Client* client) {
+    Order* order = new Order();
+    string response;
+
+    do {
+        bool has_coffee = false, has_beverages = false, has_deserts = false;
+        string product_name;
+        int quantity;
+
+        for (auto* product : products) {
+            if (product->get_type() == "Coffee") {
+                has_coffee = true;
+            }
+            if (product->get_type() == "Beverage") {
+                has_beverages = true;
+            }
+            if (product->get_type() == "Desert") {
+                has_deserts = true;
+            }
+        }
+
+        cout << "Available products to be bought at our coffee shop!" << endl;
+
+        if (has_coffee) {
+            cout << "Coffees: " << endl;
+            for (auto* product : products) {
+                if (product->get_type() == "Coffee") {
+                    cout << product->get_name() << " - " << product->get_sale_price() << " RON" << endl;
+                }
+            }
+        }
+
+        if (has_beverages) {
+            cout << "Beverages: " << endl;
+            for (auto* product : products) {
+                if (product->get_type() == "Beverage") {
+                    cout << product->get_name() << " - " << product->get_sale_price() << " RON" << endl;
+                }
+            }
+        }
+
+        if (has_deserts) {
+            cout << "Deserts: " << endl;
+            for (auto* product : products) {
+                if (product->get_type() == "Desert") {
+                    cout << product->get_name() << " - " << product->get_sale_price() << " RON" << endl;
+                }
+            }
+        }
+
+        cout << endl << "Insert the name of the product you wish to buy: ";
+        getline(cin, product_name);
+
+        cout << "Insert the quantity: ";
+        cin >> quantity;
+        cin.ignore();
+
+        try {
+            subtract_product(product_name, quantity);
+        } catch (const char* msg) {
+            cout << msg << endl;
+            delete order;
+            return;
+        }
+
+        for (auto product = products.begin(); product != products.end(); ++product) {
+            if ((*product)->get_name() == product_name) {
+                order->add_product(product_name, quantity, (*product)->get_sale_price());
+                cout << quantity << " " << product_name << " added to the order!" << endl;
+                break;
+            }
+        }
+        do {
+            cout << "Do you wish to order more products? (yes/no): ";
+            getline(cin, response);
+        } while (response != "yes" && response != "no");
+    } while (response == "yes");
+
+    order->calculate_total_price();
+    // implementarea sistemului de fidelitate: la fiecare a 5-a comanda clientul primeste 10% reducere
+    int number_of_orders = client->get_number_of_orders();
+    if(number_of_orders % 5 == 0) {
+        order->set_total_price(order->get_total_price() * 0.9);
+    }
+
+    client->add_order(order);
+
+    cout << "Order has been placed! The total price is: " << order->get_total_price() << " RON" << endl;
+
+    delete order;
+}
+
+void subtract_product(string product_name, int quantity) {
+    for (auto product = products.begin(); product != products.end(); ++product) {
+        if ((*product)->get_name() == product_name) {
+            if ((*product)->get_quantity() > quantity) {
+                (*product)->set_quantity((*product)->get_quantity() - quantity);
+
+                return;
+            }
+            if ((*product)->get_quantity() == quantity) {
+                products.erase(product);
+
+                ifstream input_file("products.csv");
+                vector<string> lines;
+                string line;
+                bool product_found = false;
+
+                if (!input_file.is_open()) {
+                    throw "Error: File not opened";
+                }
+
+                getline(input_file, line);
+                lines.push_back(line);
+
+                while (getline(input_file, line)) {
+                    stringstream ss(line);
+                    string read_city, read_address, read_product_name, read_type, read_purchase_price, read_sale_price, read_quantity;
+
+                    getline(ss, read_city, ',');
+                    getline(ss, read_address, ',');
+                    getline(ss, read_product_name, ',');
+                    getline(ss, read_type, ',');
+                    getline(ss, read_purchase_price, ',');
+                    getline(ss, read_sale_price, ',');
+                    getline(ss, read_quantity, ',');
+
+                    if (product_name == read_product_name) {
+                        product_found = true;
+                    } else {
+                        lines.push_back(line);
+                    }
+                }
+                input_file.close();
+
+                if (product_found) {
+                    ofstream outputFile("products.csv");
+                    if (!outputFile.is_open()) {
+                        throw "Error: File not opened";
+                    }
+
+                    for (const string& l : lines) {
+                        outputFile << l << endl;
+                    }
+                    outputFile.close();
+
+                    return;
+                }
+            }
+            throw "Insufficient quantity!";
+        }
+    }
+    throw "Product not found!";
+}
+
+
+    void display_employees_information() {
         int index = 0;
 
         if(employees.size() == 0) {
@@ -358,7 +545,7 @@ public:
         }
     }
 
-    void display_employees_shifts(string coffee_shop_city, string coffee_shop_address) {
+    void display_employees_shifts() {
         if(employees.size() == 0) {
             throw "There are no employees at the coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + "!";
         }
@@ -369,6 +556,15 @@ public:
             cout << employee->get_name() << " " << employee->get_surname() << " -> " <<employee->get_start_shift() << " - " << employee->get_end_shift() << endl;
             cout << endl;
         }
+    }
+
+    void display_products() {
+        int index = 0;
+        cout << "List of all the products available at the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << ":" << endl;
+        for(auto product = products.begin(); product != products.end(); ++product) {
+            cout << ++index << ". " << (*product)->get_name() << " - " << (*product)->get_type() << " - " << (*product)->get_sale_price() << " RON" << endl;
+        }
+        cout<<endl;
     }
 
     static void is_salary_valid(string salary) {
@@ -393,11 +589,11 @@ public:
 
         if((0 <= hour_shift1 && hour_shift1 <= 23 && 0 <= minute_shift1 && minute_shift1 <= 59) ||
             (0 <= hour_shift2 && hour_shift2 <= 23 && 0 <= minute_shift2 && minute_shift2 <= 59)) {
-            if(hour_shift1 < hour_shift2) {
+            if(hour_shift1 > hour_shift2) {
                 throw "Invalid shift! The start shift must be before the end shift!";
             }
             if(hour_shift1 == hour_shift2) {
-                if(minute_shift1 < minute_shift2) {
+                if(minute_shift1 > minute_shift2) {
                     throw "Invalid shift! The start shift must be before the end shift!";
                 }
             }
@@ -412,7 +608,6 @@ public:
         }
         return true;
     }
-
 
     ~CoffeeShop() = default;
 };

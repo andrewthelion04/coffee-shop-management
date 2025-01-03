@@ -133,10 +133,16 @@ public:
     }
 
     void display_coffee_shops() {
+        if(coffee_shops.size() == 0) {
+            throw "No coffee shops available!";
+        }
+
+        cout << "List of all the coffee shops:" << endl;
         for (int i = 0; i < coffee_shops.size(); ++i) {
             cout << i + 1 << ". " << coffee_shops[i].get_coffee_shop_city()
                  << " - " << coffee_shops[i].get_coffee_shop_address() << endl;
         }
+        cout << endl;
     }
 
     CoffeeShop* choose_coffee_shop() {

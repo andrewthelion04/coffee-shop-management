@@ -13,4 +13,7 @@ add_executable(coffee_shop_management
         products/Product.h
         coffee-shop/CoffeeShop.h
         coffee-shop/CoffeeShopManager.h
+        orders/Client.h
+        orders/Order.h
+        orders/OrderedProduct.h
 )

@@ -1,9 +1,19 @@
 # ninja log v6
-13	1698	7576304934342828	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
-1699	1977	7576304951289367	coffee_shop_management.exe	678893a8dad06913
-10	1762	7576334049897747	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
-1763	2069	7576334067431817	coffee_shop_management.exe	678893a8dad06913
-13	1838	7576337012519490	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
-1840	2120	7576337030780020	coffee_shop_management.exe	678893a8dad06913
 11	2013	7576348675094843	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
 2014	2345	7576348695131730	coffee_shop_management.exe	678893a8dad06913
+10	2343	7576435033708654	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
+2344	2788	7576435057045675	coffee_shop_management.exe	678893a8dad06913
+14	2347	7576460477004823	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
+2348	2738	7576460500341375	coffee_shop_management.exe	678893a8dad06913
+11	2342	7576470815458876	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
+2343	2714	7576470838794667	coffee_shop_management.exe	678893a8dad06913
+10	2048	7576491054079697	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
+2049	2373	7576491074464123	coffee_shop_management.exe	678893a8dad06913
+10	1952	7576492427579229	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
+1953	2265	7576492447005399	coffee_shop_management.exe	678893a8dad06913
+13	2842	7576502398221022	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
+2843	3391	7576502426523236	coffee_shop_management.exe	678893a8dad06913
+12	2737	7576502505162621	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
+2738	3272	7576502532430522	coffee_shop_management.exe	678893a8dad06913
+16	2812	7576504220403416	CMakeFiles/coffee_shop_management.dir/main.cpp.obj	5ac6a8a576cf6f4b
+2813	3337	7576504248374553	coffee_shop_management.exe	678893a8dad06913

@@ -35,6 +35,16 @@ public:
     double get_sale_price() const {
         return sale_price;
     }
+
+    int get_quantity() const {
+        return quantity;
+    }
+
+    void set_quantity(int quantity) {
+        this->quantity = quantity;
+    }
+
+    ~Product() = default;
 };
 
 
