@@ -26,7 +26,7 @@ void insert_products_file()
         return;
     }
 
-    products_file<<"coffee_shop_city,coffee_shop_address,type,name,price,quantity"<<endl;
+    products_file<<"coffee_shop_city,coffee_shop_address,name,purchase_price,sale_price,quantity"<<endl;
     products_file.close();
 }
 

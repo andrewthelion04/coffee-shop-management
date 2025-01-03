@@ -10,4 +10,7 @@ add_executable(coffee_shop_management
         positions/Barista.h
         positions/Waiter.h
         positions/Manager.h
+        products/Product.h
+        coffee-shop/CoffeeShop.h
+        coffee-shop/CoffeeShopManager.h
 )

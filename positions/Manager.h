@@ -10,8 +10,8 @@ private:
     string position = "Manager";
 
 public:
-    Manager(string coffee_shop_city, string coffee_shop_address, string name, string surname, string start_shift, string end_shift, string position, float salary)
-        : Employee(coffee_shop_city, coffee_shop_address, name, surname, start_shift, end_shift, position, salary) {}
+    Manager(string name, string surname, string start_shift, string end_shift, string position, float salary)
+        : Employee(name, surname, start_shift, end_shift, position, salary) {}
 
     string get_position() const override {
         return position;

@@ -8,6 +8,7 @@
 #include "Employee.h"
 #include<iostream>
 #include<random>
+#include <utility>
 using namespace std;
 
 class Waiter: public Employee {
@@ -17,8 +18,8 @@ private:
     double tips;
 public:
 
-    Waiter(string coffee_shop_city, string coffee_shop_address, string name, string surname, string start_shift, string end_shift, string position, float salary)
-        : Employee(coffee_shop_city, coffee_shop_address, name, surname, start_shift, end_shift, position, salary) {}
+    Waiter(string name, string surname, string start_shift, string end_shift, string position, float salary)
+        : Employee(std::move(name), surname, start_shift, end_shift, position, salary) {}
 
     string get_position() const override {
         return position;
