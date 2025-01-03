@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 add_executable(coffee_shop_management
     main.cpp
         initialize_files.h
-        positions/Position.h
+        positions/Employee.h
         positions/Barista.h
         positions/Waiter.h
         positions/Manager.h

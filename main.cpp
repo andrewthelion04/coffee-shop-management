@@ -1,6 +1,5 @@
 #include<iostream>
 #include<fstream>
-#include <utility>
 #include<vector>
 #include<sstream>
 #include "initialize_files.h"
@@ -33,17 +32,17 @@ public:
 class CoffeeShopManager {
 private:
     vector<CoffeeShops> coffee_shops;
-    vector<Position> employees;
+    vector<Employee*> employees;
 public:
 
     static bool valid_city_name(const string &city_name) {
-        for (static char c : city_name) {
+        for (char c : city_name) {
             if (!isalpha(c) && c != ' ' && c != '-') { // permite doar litere, spatii si cratime
                 return false; // daca se gaseste un caracter invalid, returneaza false
             }
         }
 
-        string cities[] = {"Bucuresti", "Cluj-Napoca", "Timisoara", "Iasi",  "Brasov"};
+        vector<string> cities = {"Bucuresti", "Cluj-Napoca", "Timisoara", "Iasi",  "Brasov"};
         for(const string& c : cities) {
             if(city_name == c) {
                 return true;
@@ -201,47 +200,53 @@ public:
             "1.Barista\n" << "2.Waiter\n" << "3.Manager\n";
         cout<<"Your choice: ";
         cin>>position_choice;
+        cin.ignore();
         if(position_choice < 1 || position_choice > 3) {
             throw "Invalid choice!";
+        }
+        else {
+            if(position_choice == 1) {
+                position = "Barista";
+            }
+            else if(position_choice == 2) {
+                position = "Waiter";
+            }
+            else {
+                position = "Manager";
+            }
         }
 
         cout << "Enter his/hers salary: ";
         getline(cin, salary);
-        if(!is_salary_valid(salary)) {
-            throw "Invalid salary!";
-        }
 
-        cout << "Enter the shift start: ";
+        is_salary_valid(salary);
+
+        cout << "Enter the shift start (HH:MM) : ";
         getline(cin, shift_start);
-        if(!is_shift_valid(shift_start)) {
-            throw "Invalid shift start!";
-        }
 
-        cout << "Enter the shift end (HH:MM): ";
+        cout << "Enter the shift end (HH:MM) : ";
         getline(cin, shift_end);
-        if(!is_shift_valid(shift_end)) {
-            throw "Invalid shift end!";
-        }
 
+        is_shift_valid(shift_start, shift_end);
+
+        Employee* employee = nullptr;
         switch (position_choice) {
             case 1:
-                position = "Barista";
-                Barista barista_employee(name, surname, shift_start, shift_end, position, stof(salary));
-                employees.push_back(barista_employee);
+                employees.push_back(new Barista(coffee_shop_city, coffee_shop_address, name, surname, shift_start, shift_end, position, stof(salary)));
             break;
             case 2:
-                position = "Waiter";
-                Waiter waiter_employee(name, surname, shift_start, shift_end, position, stof(salary));
-                employees.push_back(waiter_employee);
+                employees.push_back(new Waiter(coffee_shop_city, coffee_shop_address, name, surname, shift_start, shift_end, position, stof(salary)));
             break;
             case 3:
-                position = "Manager";
-                Manager manager_employee(name, surname, shift_start, shift_end, position, stof(salary));
-                employees.push_back(manager_employee);
+                employees.push_back(new Manager(coffee_shop_city, coffee_shop_address, name, surname, shift_start, shift_end, position, stof(salary)));
             break;
             default:
-                break;
+                throw "Invalid choice!";
         }
+
+
+
+        delete employee;
 
         ofstream employees_file("employees.csv", ios::app);
         if (!employees_file.is_open()) {
@@ -314,56 +319,96 @@ public:
             }
             outputFile.close();
 
-            Position* removed_employee = nullptr;
+            Employee* removed_employee = nullptr;
             if(position == "Barista") {
-                removed_employee = new Barista(name, surname, "", "", position, 0);
+                removed_employee = new Barista(coffee_shop_city, coffee_shop_address, name, surname, "", "", position, 0);
             }
             else if(position == "Waiter") {
-                removed_employee = new Waiter(name, surname, "", "", position, 0);
+                removed_employee = new Waiter(coffee_shop_city, coffee_shop_address,name, surname, "", "", position, 0);
             }
             else if(position == "Manager") {
-                removed_employee = new Manager(name, surname, "", "", position, 0);
+                removed_employee = new Manager(coffee_shop_city, coffee_shop_address,name, surname, "", "", position, 0);
             }
 
             for(auto employee = employees.begin(); employee != employees.end(); ++employee) {
-                if(employee->get_name() == removed_employee->get_name() &&
-                   employee->get_surname() == removed_employee->get_surname() &&
-                   employee->get_position() == removed_employee->get_position()) {
+                if((*employee)->get_name() == removed_employee->get_name() &&
+                   (*employee)->get_surname() == removed_employee->get_surname() &&
+                   (*employee)->get_position() == removed_employee->get_position()) {
                     employees.erase(employee);
                     break;
                    }
             }
 
             delete removed_employee;
-            cout << "Coffee shop was successfully removed!" << endl << endl;
+            cout << "The employee was successfully removed!" << endl << endl;
         }
         else {
-            throw "The coffee shop was not found!";
+            throw "The employee was not found!";
         }
     }
 
-    static bool is_salary_valid(string salary) {
-        for(char& c: salary) {
-            if(!isdigit(c)) {
-                return false;
+    void display_employees_information(string coffee_shop_city, string coffee_shop_address) {
+        int index = 0;
+
+        if(employees.size() == 0) {
+            throw "There are no employees at the coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + "!";
+        }
+
+        for(auto& employee: employees) {
+            if(employee->get_coffee_shop_city() == coffee_shop_city && employee->get_coffee_shop_address() == coffee_shop_address) {
+                cout << "Employee " << ++index << ": " << employee->get_name() << " " << employee->get_surname() << endl;
+                cout << "\t->Position: " << employee->get_position() << endl;
+                cout << "\t->Salary: " << employee->get_salary() << endl;
+                cout << "\t->Shift: " << employee->get_start_shift() << " - " << employee->get_end_shift() << endl;
+                cout << endl;
             }
         }
-        return true;
     }
 
-    static bool is_shift_valid(string shift) {
-        if(shift.length() != 5 || shift[2] != ':') {
-            return false;
+    void display_employees_shifts(string coffee_shop_city, string coffee_shop_address) {
+        if(employees.size() == 0) {
+            throw "There are no employees at the coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + "!";
         }
 
-        int hour = stoi(shift.substr(0,2));
-        int minute = stoi(shift.substr(3, 5));
+        for(auto& employee : employees) {
+            if(employee->get_coffee_shop_city() == coffee_shop_city && employee->get_coffee_shop_address() == coffee_shop_address) {
+                cout << employee->get_name() << " " << employee->get_surname() << " -> " <<employee->get_start_shift() << " - " << employee->get_end_shift() << endl;
+                cout << endl;
+            }
+        }
+    }
 
-        if(0 <= hour && hour <= 23 && 0 <= minute && minute <= 59) {
-            return true;
+    static void is_salary_valid(string salary) {
+        for(char& c: salary) {
+            if(!isdigit(c)) {
+                throw "Invalid salary! Please use only digits!";
+            }
+        }
+    }
+
+    static void is_shift_valid(string shift1, string shift2) {
+        if((shift1.length() != 5 || shift1[2] != ':') || (shift2.length() != 5 || shift2[2] != ':')) {
+            throw "Invalid shift format! Please use HH:MM!";
         }
 
-        return false;
+        int hour_shift1 = stoi(shift1.substr(0,2));
+        int hour_shift2 = stoi(shift2.substr(0,2));
+
+        int minute_shift1 = stoi(shift1.substr(3, 5));
+        int minute_shift2 = stoi(shift2.substr(3, 5));
+
+
+        if((0 <= hour_shift1 && hour_shift1 <= 23 && 0 <= minute_shift1 && minute_shift1 <= 59) ||
+            (0 <= hour_shift2 && hour_shift2 <= 23 && 0 <= minute_shift2 && minute_shift2 <= 59)) {
+            if(hour_shift1 < hour_shift2) {
+                throw "Invalid shift! The start shift must be before the end shift!";
+            }
+            if(hour_shift1 == hour_shift2) {
+                if(minute_shift1 < minute_shift2) {
+                    throw "Invalid shift! The start shift must be before the end shift!";
+                }
+            }
+        }
     }
 
     static bool is_name_valid(string name) {
@@ -388,44 +433,50 @@ int main()
     insert_coffee_shops_file();
 
     CoffeeShopManager manager;
-    while (true) {
-        cout << "1. Add coffee shop" << endl;
-        cout << "2. Remove coffee shop" << endl;
-        cout << "3. Display coffee shops" << endl;
-        cout << "4. Select coffee shop" << endl;
-        cout << "5. Exit" << endl;
 
-        int choice;
-        cout << "Your choice: ";
-        cin >> choice;
-        cin.ignore();
+    manager.add_employee("Bucuresti", "Splaiul Independentei 290");
+    manager.remove_employee("Bucuresti", "Splaiul Independentei 290");
 
-        switch (choice) {
-            case 1:
-                manager.add_coffee_shop();
-                break;
-            case 2:
-                manager.remove_coffee_shop();
-                break;
-            case 3:
-                manager.display_coffee_shops();
-                break;
-            case 4:
-                try {
-                    CoffeeShops* selected_shop = manager.choose_coffee_shop();
-                    if (selected_shop) {
-                        cout << "You selected: " << selected_shop->get_coffee_shop_city()
-                             << " - " << selected_shop->get_coffee_shop_address() << endl;
-                    }
-                } catch (const char* message) {
-                    cout << message << endl;
-                }
-                break;
-            case 5:
-                return 0;
-            default:
-                cout << "Invalid choice!" << endl;
-        }
-    }
+
+
+    // while (true) {
+    //     cout << "1. Add coffee shop" << endl;
+    //     cout << "2. Remove coffee shop" << endl;
+    //     cout << "3. Display coffee shops" << endl;
+    //     cout << "4. Select coffee shop" << endl;
+    //     cout << "5. Exit" << endl;
+    //
+    //     int choice;
+    //     cout << "Your choice: ";
+    //     cin >> choice;
+    //     cin.ignore();
+    //
+    //     switch (choice) {
+    //         case 1:
+    //             manager.add_coffee_shop();
+    //             break;
+    //         case 2:
+    //             manager.remove_coffee_shop();
+    //             break;
+    //         case 3:
+    //             manager.display_coffee_shops();
+    //             break;
+    //         case 4:
+    //             try {
+    //                 CoffeeShops* selected_shop = manager.choose_coffee_shop();
+    //                 if (selected_shop) {
+    //                     cout << "You selected: " << selected_shop->get_coffee_shop_city()
+    //                          << " - " << selected_shop->get_coffee_shop_address() << endl;
+    //                 }
+    //             } catch (const char* message) {
+    //                 cout << message << endl;
+    //             }
+    //             break;
+    //         case 5:
+    //             return 0;
+    //         default:
+    //             cout << "Invalid choice!" << endl;
+    //     }
+    // }
 }
 

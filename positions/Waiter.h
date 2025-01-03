@@ -5,20 +5,20 @@
 #ifndef WAITER_H
 #define WAITER_H
 
-#include "Position.h"
+#include "Employee.h"
 #include<iostream>
 #include<random>
 using namespace std;
 
-class Waiter: public Position {
+class Waiter: public Employee {
 private:
     string position = "Waiter";
     int daily_orders;
     double tips;
 public:
 
-    Waiter(string name, string surname, string start_shift, string end_shift, string position, float salary)
-        : Position(name, surname, start_shift, end_shift, position, salary) {}
+    Waiter(string coffee_shop_city, string coffee_shop_address, string name, string surname, string start_shift, string end_shift, string position, float salary)
+        : Employee(coffee_shop_city, coffee_shop_address, name, surname, start_shift, end_shift, position, salary) {}
 
     string get_position() const override {
         return position;
