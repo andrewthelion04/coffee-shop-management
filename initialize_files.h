@@ -54,7 +54,7 @@ void insert_special_events_file()
         return;
     }
 
-    special_events_file<<"coffee_shop_city,coffee_shop_address,event_name,event_description,event_costs"<<endl;
+    special_events_file<<"coffee_shop_city,coffee_shop_address,event_name,event_description,start_time,event_costs"<<endl;
     special_events_file.close();
 }
 
@@ -68,7 +68,7 @@ void insert_reports_file()
         return;
     }
 
-    reports_file<<"coffee_shop_city,coffee_shop_address,date,total_cost_products,employees_salaries,total_sales"<<endl;
+    reports_file<<"coffee_shop_city,coffee_shop_address,date,total_expenses,total_sales,profit"<<endl;
     reports_file.close();
 }
 
@@ -81,6 +81,6 @@ void insert_coffee_shops_file() {
         return;
     }
 
-    coffee_shops_file<<"city,address"<<endl;
+    coffee_shops_file<<"city,address,size"<<endl;
     coffee_shops_file.close();
 }

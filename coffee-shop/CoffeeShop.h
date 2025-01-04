@@ -8,11 +8,13 @@
 #include "../positions/Manager.h"
 #include "../products/Product.h"
 #include "../orders/Client.h"
+#include "../orders/Order.h"
 #include "../special-events/SpecialEvent.h"
 #include<fstream>
 #include<sstream>
 #include<vector>
 #include<string>
+#include<random>
 
 using namespace std;
 
@@ -20,13 +22,16 @@ class CoffeeShop {
 private:
     string coffee_shop_address;
     string coffee_shop_city;
+    string coffee_shop_size;
     vector<Employee*> employees; //utilizare template-uri pentru a evita duplicarea codului
-    vector<Product*> products;
+    vector<Product*> all_products;
+    vector<Product*> new_products;
     vector<Client*> clients;
+    vector<Order*> orders;
     vector<SpecialEvent*> special_events;
 
 public:
-    CoffeeShop(string coffee_shop_address, string coffee_shop_city) : coffee_shop_address(coffee_shop_address), coffee_shop_city(coffee_shop_city) {}
+    CoffeeShop(string coffee_shop_address, string coffee_shop_city, string coffee_shop_size) : coffee_shop_address(coffee_shop_address), coffee_shop_city(coffee_shop_city), coffee_shop_size(coffee_shop_size) {}
 
     string get_coffee_shop_address() {
         return coffee_shop_address;
@@ -34,6 +39,22 @@ public:
 
     string get_coffee_shop_city() {
         return coffee_shop_city;
+    }
+
+    string get_coffee_shop_size() {
+        return coffee_shop_size;
+    }
+
+    vector<Product*> get_new_products() {
+        return new_products;
+    }
+
+    vector<Order*> get_orders() {
+        return orders;
+    }
+
+    vector<SpecialEvent*> get_special_events() {
+        return special_events;
     }
 
     void add_employee() {
@@ -245,7 +266,9 @@ public:
         cin >> sale_price;
         cin.ignore();
 
-        products.push_back(new Product(product_name, type, stof(purchase_price), stof(sale_price), stoi(quantity)));
+        all_products.push_back(new Product(product_name, type, stof(purchase_price), stof(sale_price), stoi(quantity)));
+        new_products.push_back(new Product(product_name, type, stof(purchase_price), stof(sale_price), stoi(quantity)));
+
 
         ofstream products_file("products.csv", ios::app);
         if(!products_file.is_open()) {
@@ -258,7 +281,7 @@ public:
     }
 
     void delete_product() {
-        if(products.empty()) {
+        if(all_products.empty()) {
             throw "There are no products!\n";
         }
 
@@ -324,24 +347,33 @@ public:
         input_file.close();
 
         if(product_found) {
-            ofstream outputFile("products.csv");
-            if(!outputFile.is_open()) {
+            ofstream output_file("products.csv");
+            if(!output_file.is_open()) {
                 throw "Error: File not opened";
             }
 
             for(const string& l : lines) {
-                outputFile << l << endl;
+                output_file << l << endl;
             }
-            outputFile.close();
+            output_file.close();
 
             Product *removed_product = new Product(product_name, type, 0, 0, 0);
-            for(auto product = products.begin(); product != products.end(); ++product) {
+            for(auto product = all_products.begin(); product != all_products.end(); ++product) {
                 if((*product)->get_name() == removed_product->get_name() &&
                    (*product)->get_type() == removed_product->get_type()) {
-                    products.erase(product);
+                    all_products.erase(product);
                     break;
                 }
             }
+
+            for(auto product = new_products.begin(); product != new_products.end(); ++product) {
+                if((*product)->get_name() == removed_product->get_name() &&
+                   (*product)->get_type() == removed_product->get_type()) {
+                    new_products.erase(product);
+                    break;
+                   }
+            }
+
 
             delete removed_product;
             cout << "The product was successfully removed!" << endl << endl;
@@ -351,10 +383,49 @@ public:
             throw "The product was not found!";
         }
     }
+
+    bool check_minimum_staff_required() {
+        int barista_count = 0, waiter_count = 0, manager_count = 0;
+
+        for(auto* employee : employees) {
+            if(employee->get_position() == "Barista") {
+                barista_count++;
+            }
+            if(employee->get_position() == "Waiter") {
+                waiter_count++;
+            }
+            if(employee->get_position() == "Manager") {
+                manager_count++;
+            }
+        }
+
+        if(coffee_shop_size == "Small") {
+            if(barista_count < 1 || waiter_count < 1 || manager_count < 1) {
+                return false;
+            }
+        }
+        if(coffee_shop_size == "Medium") {
+            if(barista_count < 2 || waiter_count < 2 || manager_count < 2) {
+                return false;
+            }
+        }
+        if(coffee_shop_size == "Large") {
+            if(barista_count < 3 || waiter_count < 3 || manager_count < 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     void place_order() {
-        if(products.empty()) {
-            cout<<"The coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << " has no products available!" << endl;
-            return;
+        if(all_products.empty()) {
+            throw "The coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + " has no products available!\n";
+
+        }
+
+        if(!check_minimum_staff_required()) {
+            throw "The coffee shop located in" + coffee_shop_city + " - " + coffee_shop_address + " does not have enough staff to place an order!\n"
         }
 
         string client_name;
@@ -387,7 +458,7 @@ public:
             string product_name;
             int quantity;
 
-            for (auto* product : products) {
+            for (auto* product : all_products) {
                 if (product->get_type() == "Coffee") {
                     has_coffee = true;
                 }
@@ -403,7 +474,7 @@ public:
 
             if (has_coffee) {
                 cout << "Coffees: " << endl;
-                for (auto* product : products) {
+                for (auto* product : all_products) {
                     if (product->get_type() == "Coffee") {
                         cout << product->get_name() << " - " << product->get_sale_price() << " RON" << endl;
                     }
@@ -412,7 +483,7 @@ public:
 
             if (has_beverages) {
                 cout << "Beverages: " << endl;
-                for (auto* product : products) {
+                for (auto* product : all_products) {
                     if (product->get_type() == "Beverage") {
                         cout << product->get_name() << " - " << product->get_sale_price() << " RON" << endl;
                     }
@@ -421,7 +492,7 @@ public:
 
             if (has_deserts) {
                 cout << "Deserts: " << endl;
-                for (auto* product : products) {
+                for (auto* product : all_products) {
                     if (product->get_type() == "Desert") {
                         cout << product->get_name() << " - " << product->get_sale_price() << " RON" << endl;
                     }
@@ -447,7 +518,7 @@ public:
                 return;
             }
 
-            for (auto product = products.begin(); product != products.end(); ++product) {
+            for (auto product = all_products.begin(); product != all_products.end(); ++product) {
                 if ((*product)->get_name() == product_name) {
                     order->add_product(product_name, quantity, (*product)->get_sale_price());
                     cout << quantity << " " << product_name << " added to the order!" << endl;
@@ -468,6 +539,7 @@ public:
             order->set_total_price(order->get_total_price() * 0.9);
         }
 
+        orders.push_back(order);
         client->add_order(order);
 
         string ordered_products;
@@ -494,7 +566,7 @@ public:
     }
 
     void subtract_product(string product_name, int quantity) {
-        for (auto product = products.begin(); product != products.end(); ++product) {
+        for (auto product = all_products.begin(); product != all_products.end(); ++product) {
             if ((*product)->get_name() == product_name) {
                 if ((*product)->get_quantity() >= quantity) {
                     (*product)->set_quantity((*product)->get_quantity() - quantity);
@@ -542,7 +614,7 @@ public:
                     output_file.close();
 
                     if ((*product)->get_quantity() == 0) {
-                        products.erase(product);
+                        all_products.erase(product);
                     }
 
                     return;
@@ -555,7 +627,7 @@ public:
     }
 
     void add_special_event() {
-        string name, description, product_name, type, cost, quantity;
+        string name, description, start_time, product_name, type, cost, quantity;
         int type_choice;
         string response;
 
@@ -567,7 +639,10 @@ public:
         cout << "Enter the description of the special event: ";
         getline(cin, description);
 
-        SpecialEvent *special_event = new SpecialEvent(name, description);
+        cout << "Specify the start time of the event (HH:MM): ";
+        getline(cin, start_time);
+
+        SpecialEvent *special_event = new SpecialEvent(name, description, start_time);
 
         do {
             cout << "Select the type of requirements for the event:\n"
@@ -691,9 +766,72 @@ public:
             return;
         }
 
-        special_events_file << coffee_shop_city << "," << coffee_shop_address << "," << name << "," << description <<
+        special_events_file << coffee_shop_city << "," << coffee_shop_address << "," << name << "," << description << start_time <<
                 "," << special_event->get_total_costs() << endl;
         special_events_file.close();
+    }
+
+    void remove_special_event() {
+        if(special_events.empty()) {
+            throw "There are no special events available!";
+        }
+
+        cout << "Select the special event you wish to remove!" << endl;
+        int events_index = 0;
+        int events_choice;
+        for(auto* special_event : special_events) {
+            cout << ++events_index <<". "  << special_event->get_name();
+        }
+        cout << "Your choice: ";
+        cin >> events_choice;
+        cin.ignore();
+
+        if(events_choice < 1 || events_choice > 2) {
+            throw "Invalid choice!";
+        }
+
+        SpecialEvent* chosen_event = special_events[events_choice - 1];
+
+        for(auto event = special_events.begin(); event != special_events.end(); ++event) {
+            if((*event)->get_name() == chosen_event->get_name()) {
+                special_events.erase(event);
+                break;
+            }
+        }
+
+        ifstream input_file("special_events.csv");
+        vector<string> lines;
+        string line;
+
+        getline(input_file, line);
+        lines.push_back(line);
+
+        while(getline(input_file, line)) {
+            stringstream ss(line);
+            string read_city, read_address, read_event_name, read_event_description, read_event_start_time, read_costs;
+
+            getline(ss, read_city, ',');
+            getline(ss, read_address, ',');
+            getline(ss, read_event_name, ',');
+            getline(ss, read_event_description, ',');
+            getline(ss, read_event_start_time, ',');
+            getline(ss, read_costs, ',');
+            if(chosen_event->get_name() != read_event_name) {
+                lines.push_back(line);
+            }
+        }
+        input_file.close();
+
+        ofstream output_file("special_events.csv");
+        if(!output_file.is_open()) {
+            throw "Error: File not opened";
+        }
+
+        for(const string& l : lines) {
+            output_file << l << endl;
+        }
+
+        output_file.close();
     }
 
     void display_special_events() {
@@ -806,7 +944,7 @@ public:
     void display_products() {
         int index = 0;
         cout << "List of all the products available at the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << ":" << endl;
-        for(auto product = products.begin(); product != products.end(); ++product) {
+        for(auto product = all_products.begin(); product != all_products.end(); ++product) {
             cout << ++index << ". " << (*product)->get_name() << " - " << (*product)->get_type() << " - " << (*product)->get_sale_price() << " RON" << endl;
         }
         cout<<endl;
@@ -853,6 +991,95 @@ public:
         }
         return true;
     }
+
+    //determinarea salariilor ce trebuie achitate pe o luna intreaga
+    double calculate_total_salaries() {
+        double total_salaries = 0.0;
+
+        for(auto* employee : employees) {
+            if(employee->get_position() == "Barista") {
+                dynamic_cast<Barista*>(employee)->generate_coffee_count();
+                total_salaries += employee->calculate_salary();
+            }
+            if(employee->get_position() == "Waiter") {
+                dynamic_cast<Waiter*>(employee)->generate_tips();
+                total_salaries += employee->calculate_salary();
+            }
+            if(employee->get_position() == "Manager") {
+                total_salaries += employee->calculate_salary();
+            }
+        }
+
+        return total_salaries / 21; //there are an average of 21 working days in a month
+    }                   // we only need the total salaries for 1 day
+
+    // determinarea sumei de plata la factura pe o luna intreaga
+    double calculate_total_bills() {
+        double total_bill = 0.0;
+        std::random_device rd;  // pentru generare seed
+        std::mt19937 gen(rd());
+
+        if (coffee_shop_size == "Small") {
+            std::uniform_real_distribution<float> dist(1000, 1500);
+            total_bill = dist(gen);
+        }
+        else if(coffee_shop_size == "Medium") {
+            std::uniform_real_distribution<float> dist(1500, 2000);
+            total_bill = dist(gen);
+        }
+        else {
+            std::uniform_real_distribution<float> dist(2000, 2500);
+            total_bill = dist(gen);
+        }
+
+        return total_bill / 21; //there are an average of 21 working days in a month
+    }                       // we only need the bill for 1 day
+
+    double calculate_total_sales() {
+        double total_sales = 0.0;
+
+        for(auto* order : orders) {
+            total_sales += order->get_total_price();
+        }
+
+        return total_sales;
+    }
+
+    double calculate_total_acquisitions() {
+        double total_acquisitions = 0.0;
+
+        for(auto* products : new_products) {
+            total_acquisitions += products->get_acquisition_cost();
+        }
+
+        return total_acquisitions;
+    }
+
+    double calculate_total_cost_special_events() {
+        double total_cost_special_events = 0.0;
+
+        for(auto* special_event : special_events) {
+            total_cost_special_events += special_event->get_total_costs();
+        }
+
+        return total_cost_special_events;
+    }
+
+
+    double calculate_total_sales_special_events() {
+        double total_sales_special_events = 0.0;
+        std::random_device rd;
+        std::mt19937 gen(rd());
+
+        for(auto* special_event : special_events) {
+            std::uniform_real_distribution<double> dist(0.5*special_event->get_total_costs(), 1.5*special_event->get_total_costs());
+            total_sales_special_events += dist(gen);
+        }
+
+        return total_sales_special_events;
+    }
+
+
 
     ~CoffeeShop() = default;
 };

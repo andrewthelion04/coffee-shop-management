@@ -10,9 +10,10 @@ void special_events_menu(CoffeeShop *shop) {
     int choice;
     do {
         cout << "1. Add special event" << endl;
-        cout << "2. Display special events" << endl;
-        cout << "3. Display requirements and costs for a special event" << endl;
-        cout << "4. Exit" << endl;
+        cout << "2. Remove special event" << endl;
+        cout << "3. Display special events" << endl;
+        cout << "4. Display requirements and costs for a special event" << endl;
+        cout << "5. Exit" << endl;
 
         cout << "Your choice: ";
         cin >> choice;
@@ -28,19 +29,31 @@ void special_events_menu(CoffeeShop *shop) {
                 break;
             case 2:
                 try {
-                    shop->display_special_events();
+                    shop->remove_special_event();
                 }catch(const char* message) {
                     cout << message << endl;
                 }
                 break;
             case 3:
                 try {
+                    shop->display_special_events();
+                }catch(const char* message) {
+                    cout << message << endl;
+                }
+
+            case 4:
+                try {
                     shop->display_special_event_requirements();
                 }catch(const char* message) {
                     cout << message << endl;
                 }
-            case 4:
                 break;
+            case 5:
+                break;
+            default:
+                cout << "Invalid choice!\n";
+            break;
+
 
         }
     }while(choice != 4);
@@ -192,13 +205,16 @@ int main()
 
     int choice;
     CoffeeShopManager manager;
+    manager.get_today_date();
 
     do{
+        cout << "Welcome to the coffee shop manager! Date: " << manager.get_current_day() << endl;
         cout << "1. Add coffee shop" << endl;
         cout << "2. Remove coffee shop" << endl;
         cout << "3. Display coffee shops" << endl;
         cout << "4. Select coffee shop" << endl;
-        cout << "5. Exit" << endl;
+        cout << "5. Generate a report for each coffee shop" << endl;
+        cout << "6. Exit" << endl;
 
 
         cout << "Your choice: ";
@@ -231,12 +247,19 @@ int main()
                 }
                 break;
             case 5:
+                try {
+
+                    manager.generate_daily_reports();
+                    manager.go_to_next_day();
+                }catch(const char* message) {
+                    cout << message << endl;
+                }
                 break;
 
             default:
                 cout << "Invalid choice! Please try again!" << endl;
         }
-    }while(choice != 5);
+    }while(choice != 6);
 
     return 0;
 }

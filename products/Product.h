@@ -44,6 +44,10 @@ public:
         this->quantity = quantity;
     }
 
+    double get_acquisition_cost() const {
+        return purchase_price * quantity;
+    }
+
     ~Product() = default;
 };
 

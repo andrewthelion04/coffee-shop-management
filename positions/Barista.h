@@ -29,7 +29,6 @@ public:
     }
 
     float calculate_salary() const override {
-
         double bonus = num_coffees_made * 0.8;
         return salary + bonus;
     }

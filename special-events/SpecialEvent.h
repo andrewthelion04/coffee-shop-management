@@ -12,10 +12,11 @@ class SpecialEvent {
 private:
     string name;
     string description;
+    string start_time;
     vector<ProductsAndServices*>required_products;
     double total_costs = 0.0;
 public:
-    SpecialEvent(string name, string description) : name(std::move(name)), description(std::move(description)) {}
+    SpecialEvent(string name, string description, string start_time) : name(std::move(name)), description(std::move(description)), start_time(std::move(start_time)) {}
 
     string get_name() const {
         return name;
@@ -23,6 +24,10 @@ public:
 
     string get_description() const {
         return description;
+    }
+
+    string get_start_time() const {
+        return start_time;
     }
 
     vector<ProductsAndServices*> get_required_products() const {
