@@ -8,6 +8,7 @@
 #include "../positions/Manager.h"
 #include "../products/Product.h"
 #include "../orders/Client.h"
+#include "../special-events/SpecialEvent.h"
 #include<fstream>
 #include<sstream>
 #include<vector>
@@ -19,9 +20,10 @@ class CoffeeShop {
 private:
     string coffee_shop_address;
     string coffee_shop_city;
-    vector<Employee*> employees;
+    vector<Employee*> employees; //utilizare template-uri pentru a evita duplicarea codului
     vector<Product*> products;
     vector<Client*> clients;
+    vector<SpecialEvent*> special_events;
 
 public:
     CoffeeShop(string coffee_shop_address, string coffee_shop_city) : coffee_shop_address(coffee_shop_address), coffee_shop_city(coffee_shop_city) {}
@@ -462,7 +464,7 @@ public:
 
         // implementarea sistemului de fidelitate: la fiecare a 5-a comanda clientul primeste 10% reducere
         if((client->get_number_of_orders() + 1) % 5 == 0) {
-            cout << client->get_name() << " has recieved a 10% discount for being a loyal customer!" << endl;
+            cout << client->get_name() << " has received a 10% discount for being a loyal customer!" << endl;
             order->set_total_price(order->get_total_price() * 0.9);
         }
 
@@ -550,6 +552,223 @@ public:
             }
         }
         throw "Product not found!";
+    }
+
+    void add_special_event() {
+        string name, description, product_name, type, cost, quantity;
+        int type_choice;
+        string response;
+
+        cout << "Adding a special event to the coffee shop located in " << coffee_shop_city << " - " <<
+                coffee_shop_address << "!" << endl;
+        cout << "Enter the name of the special event: ";
+        getline(cin, name);
+
+        cout << "Enter the description of the special event: ";
+        getline(cin, description);
+
+        SpecialEvent *special_event = new SpecialEvent(name, description);
+
+        do {
+            cout << "Select the type of requirements for the event:\n"
+                    << "1. Food and beverages\n"
+                    << "2. Service personnel\n"
+                    << "3. Decorative elements\n";
+            cout << "Your choice: ";
+            cin >> type_choice;
+            cin.ignore();
+
+            switch (type_choice) {
+                case 1:
+                    type = "Food and beverages";
+                    cout << "Enter the name of the product: ";
+                    getline(cin, name);
+
+                    cout << "Enter the quantity: ";
+                    getline(cin, quantity);
+
+                    cout << "Enter the price per item: ";
+                    getline(cin, cost);
+                    break;
+                case 2:
+                    int personnel_choice;
+                    type = "Service personnel";
+                    quantity = '1';
+                    cout << "Select what type of additional service personnel you need for the event!\n"
+                            << "1.DJ\n"
+                            << "2.Entertainer\n"
+                            << "3.Photographer\n"
+                            << "4.Security Personnel\n"
+                            << "5.Event coordinator\n"
+                            << "Your choice: ";
+                    cin >> personnel_choice;
+                    cin.ignore();
+
+                    switch (personnel_choice) {
+                        case 1:
+                            product_name = "DJ";
+                            break;
+                        case 2:
+                            product_name = "Entertainer";
+                            break;
+                        case 3:
+                            product_name = "Photographer";
+                            break;
+                        case 4:
+                            product_name = "Security Personnel";
+                            break;
+                        case 5:
+                            product_name = "Event coordinator";
+                            break;
+                        default:
+                            cout << "Invalid choice!" << endl;
+                            break;
+                    }
+
+                    cout << "Enter an estimated cost for the service: ";
+                    getline(cin, cost);
+
+                    break;
+                case 3:
+                    int decorative_choice;
+                    type = "Decorative elements";
+                    cout << "Select what type of decorative elements you need for the event!\n"
+                            << "1.Balloons\n"
+                            << "2.Flower arrangements\n"
+                            << "3.Table centerpieces\n"
+                            << "4.Candles\n"
+                            << "5.Banners\n"
+                            << "Your choice: ";
+                    cin >> decorative_choice;
+                    cin.ignore();
+
+                    switch (decorative_choice) {
+                        case 1:
+                            product_name = "Balloon";
+                            break;
+                        case 2:
+                            product_name = "Flower arrangement";
+                            break;
+                        case 3:
+                            product_name = "Table centerpiece";
+                            break;
+                        case 4:
+                            product_name = "Candle";
+                            break;
+                        case 5:
+                            product_name = "Banner";
+                            break;
+                        default:
+                            cout << "Invalid choice!";
+                            break;
+                    }
+
+                    cout << "Enter the quantity: ";
+                    getline(cin, quantity);
+
+                    cout << "Enter the price per item: ";
+                    getline(cin, cost);
+                    break;
+                default:
+                    cout << "Invalid choice!" << endl;
+                    break;
+            }
+            special_event->add_required_product(product_name, type, stof(cost), stoi(quantity));
+
+            do {
+                cout << "Do you wish to add more requirements for the event? (yes/no): ";
+                getline(cin, response);
+            } while (response != "yes" && response != "no");
+        } while (response == "yes");
+
+
+        special_event->calculate_total_costs();
+        special_events.push_back(special_event);
+
+        ofstream special_events_file("special_events.csv", ios::app);
+        if (!special_events_file.is_open()) {
+            cout << "Error: File not opened" << endl;
+            return;
+        }
+
+        special_events_file << coffee_shop_city << "," << coffee_shop_address << "," << name << "," << description <<
+                "," << special_event->get_total_costs() << endl;
+        special_events_file.close();
+    }
+
+    void display_special_events() {
+        if(special_events.empty()) {
+            throw "There are no special events booked at the coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + "!" + "\n";
+        }
+        int special_event_index = 0;
+        cout << "Special event/s at the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << ":" << endl;
+        for(auto* special_event : special_events) {
+            cout << ++special_event_index << "." << special_event->get_name() << endl;
+            cout << "\t->Description: " << special_event->get_description() << endl;
+            cout << "\t->Estimated costs: " << special_event->get_total_costs() << endl;
+        }
+    }
+
+    void display_special_event_requirements() {
+        if(special_events.empty()) {
+            throw "There are no special events booked at the coffee shop located in" + coffee_shop_city + " - " + coffee_shop_address + "!" + "\n";
+        }
+
+        int special_event_index = 0;
+        int special_event_choice;
+
+        cout << "Select the special event you wish to see the requirements for!" << endl;
+        for(auto* special_event : special_events) {
+            cout << ++special_event_index << "." << special_event->get_name() << endl;
+        }
+        cout << "Your choice: ";
+        cin >> special_event_choice;
+        cin.ignore();
+
+        SpecialEvent* event = special_events[special_event_choice - 1];
+
+        bool has_food_and_beverages = false, has_service_personnel = false, has_decorative_elements = false;
+        for(auto* required_product : event->get_required_products()) {
+            if(required_product->get_type() == "Food and beverages") {
+                has_food_and_beverages = true;
+            }
+            if(required_product->get_type() == "Service personnel") {
+                has_service_personnel = true;
+            }
+            if(required_product->get_type() == "Decorative elements") {
+                has_decorative_elements = true;
+            }
+        }
+
+        cout << "Requirements for the special event " << event->get_name() << ":" << endl;
+        if(has_food_and_beverages) {
+            cout << "Food and beverages: " << endl;
+            for(auto* required_product : event->get_required_products()) {
+                if(required_product->get_type() == "Food and beverages") {
+                    cout << required_product->get_product_name() << " - " << required_product->get_quantity() << " - " << required_product->get_cost() << " RON" << endl;
+                }
+            }
+        }
+
+        if(has_service_personnel) {
+            cout << "Service personnel: " << endl;
+            for(auto* required_product : event->get_required_products()) {
+                if(required_product->get_type() == "Service personnel") {
+                    cout << required_product->get_product_name() << " - " << required_product->get_cost() << " RON" << endl;
+                }
+            }
+        }
+
+        if(has_decorative_elements) {
+            cout << "Decorative elements: " << endl;
+            for(auto* required_product : event->get_required_products()) {
+                if(required_product->get_type() == "Decorative elements") {
+                    cout << required_product->get_product_name() << " - " << required_product->get_quantity() << " - " << required_product->get_cost() << " RON" << endl;
+                }
+            }
+        }
+
+        cout << "Total costs: " << event->get_total_costs() << " RON" << endl << endl;
     }
 
 

@@ -54,7 +54,7 @@ void insert_special_events_file()
         return;
     }
 
-    special_events_file<<"coffee_shop_city,coffee_shop_address,event_name,event_date,event_description"<<endl;
+    special_events_file<<"coffee_shop_city,coffee_shop_address,event_name,event_description,event_costs"<<endl;
     special_events_file.close();
 }
 

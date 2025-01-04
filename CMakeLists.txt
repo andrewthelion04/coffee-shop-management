@@ -16,4 +16,6 @@ add_executable(coffee_shop_management
         orders/Client.h
         orders/Order.h
         orders/OrderedProduct.h
+        special-events/SpecialEvent.h
+        special-events/ProductsAndServices.h
 )

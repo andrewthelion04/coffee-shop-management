@@ -6,6 +6,46 @@
 
 using namespace std;
 
+void special_events_menu(CoffeeShop *shop) {
+    int choice;
+    do {
+        cout << "1. Add special event" << endl;
+        cout << "2. Display special events" << endl;
+        cout << "3. Display requirements and costs for a special event" << endl;
+        cout << "4. Exit" << endl;
+
+        cout << "Your choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch(choice) {
+            case 1:
+                try {
+                    shop->add_special_event();
+                }catch(const char* message) {
+                    cout << message << endl;
+                }
+                break;
+            case 2:
+                try {
+                    shop->display_special_events();
+                }catch(const char* message) {
+                    cout << message << endl;
+                }
+                break;
+            case 3:
+                try {
+                    shop->display_special_event_requirements();
+                }catch(const char* message) {
+                    cout << message << endl;
+                }
+            case 4:
+                break;
+
+        }
+    }while(choice != 4);
+}
+
 void product_operations_menu(CoffeeShop* shop) {
     int choice;
     do {
@@ -20,13 +60,25 @@ void product_operations_menu(CoffeeShop* shop) {
 
         switch(choice) {
             case 1:
-                shop->add_product();
+                try {
+                    shop->add_product();
+                }catch(const char* message) {
+                    cout << message << endl;
+                }
             break;
             case 2:
-                shop->delete_product();
-            break;
+                try {
+                    shop->delete_product();
+                }catch(const char* message) {
+                    cout << message << endl;
+                }
+                break;
             case 3:
-                shop->display_products();
+                try {
+                    shop->display_products();
+                }catch(const char* message) {
+                    cout << message << endl;
+                }
             break;
             case 4:
                 break;
@@ -52,16 +104,32 @@ void employee_operations_menu(CoffeeShop* shop) {
 
         switch(choice) {
             case 1:
-                shop->add_employee();
+                try {
+                    shop->add_employee();
+                }catch(const char* message) {
+                    cout << message << endl;
+                }
                 break;
             case 2:
-                shop->remove_employee();
+                try {
+                    shop->remove_employee();
+                }catch(const char* message) {
+                    cout << message << endl;
+                }
                 break;
             case 3:
-                shop->display_employees_information();
+                try {
+                    shop->display_employees_information();
+                }catch(const char* message) {
+                    cout << message << endl << endl;
+                }
                 break;
             case 4:
-                shop->display_employees_shifts();
+                try {
+                    shop->display_employees_shifts();
+                }catch(const char* message) {
+                    cout << message << endl << endl;
+                }
                 break;
             case 5:
                 break;
@@ -99,6 +167,7 @@ void coffee_shop_select_menu(CoffeeShopManager* manager) {
                 selected_shop->place_order();
                 break;
             case 4:
+                special_events_menu(selected_shop);
                 break;
             case 5:
                 break;
@@ -141,19 +210,23 @@ int main()
                 try {
                     manager.add_coffee_shop();
                 }catch(const char* msg) {
-                    cout<< msg <<endl;
+                    cout<< msg << endl << endl;
                 }
                 break;
             case 2:
                 manager.remove_coffee_shop();
                 break;
             case 3:
-                manager.display_coffee_shops();
+                try {
+                    manager.display_coffee_shops();
+                }catch(const char* message) {
+                    cout << message << endl << endl;
+                }
                 break;
             case 4:
                 try {
                     coffee_shop_select_menu(&manager);
-                    }catch (const char* message) {
+                }catch (const char* message) {
                     cout << message << endl;
                 }
                 break;
