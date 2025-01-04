@@ -26,7 +26,7 @@ void insert_products_file()
         return;
     }
 
-    products_file<<"coffee_shop_city,coffee_shop_address,name,purchase_price,sale_price,quantity"<<endl;
+    products_file<<"coffee_shop_city,coffee_shop_address,name,type,purchase_price,sale_price,quantity"<<endl;
     products_file.close();
 }
 
@@ -40,7 +40,7 @@ void insert_orders_file()
         return;
     }
 
-    orders_file<<"coffee_shop_city,coffee_shop_address,client_name,product_name,quantity,price"<<endl;
+    orders_file<<"coffee_shop_city,coffee_shop_address,client_name,products_names_and_quantities,price"<<endl;
     orders_file.close();
 }
 

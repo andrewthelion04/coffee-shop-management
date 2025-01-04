@@ -4,7 +4,6 @@
 
 #include<iostream>
 #include "Order.h"
-#include "../products/Product.h"
 using namespace std;
 
 class Client {
@@ -12,7 +11,7 @@ private:
     string name;
     vector<Order*>orders;
 public:
-    Client(string name): name(std::move(name)) {}
+    explicit Client(string name): name(std::move(name)) {}
 
     void add_order(Order* order) {
         orders.push_back(order);
@@ -35,4 +34,4 @@ public:
 
 
 
-#endif //CLIENT_H
+#endif //CLIENTS_H

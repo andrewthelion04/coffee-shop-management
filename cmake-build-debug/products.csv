@@ -1,4 +1,3 @@
-coffee_shop_city,coffee_shop_address,name,purchase_price,sale_price,quantity
-Bucuresti,unirii 22,Cappucino,Coffee,10,30,200
-Bucuresti,unirii 22,Coca Cola,Beverage,4,12,200
-Bucuresti,unirii 22,Krantz,Desert,3,11,250
+coffee_shop_city,coffee_shop_address,name,type,purchase_price,sale_price,quantity
+Bucuresti,Splai 100,Latte,Coffee,4,12,98
+Bucuresti,Splai 100,Pepsi,Beverage,4,10,99

@@ -21,6 +21,10 @@ public:
         return total_price;
     }
 
+    vector<OrderedProduct*> get_ordered_products() const {
+        return ordered_products;
+    }
+
     void add_product(string product_name, int quantity, double price) {
         ordered_products.push_back(new OrderedProduct(std::move(product_name), quantity, price));
     }
@@ -36,7 +40,7 @@ public:
 
     void calculate_total_price() {
         for(auto& product : ordered_products) {
-            total_price += product->get_price();
+            total_price += product->get_quantity() * product->get_price();
         }
     }
 

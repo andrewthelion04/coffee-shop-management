@@ -138,7 +138,11 @@ int main()
 
         switch (choice) {
             case 1:
-                manager.add_coffee_shop();
+                try {
+                    manager.add_coffee_shop();
+                }catch(const char* msg) {
+                    cout<< msg <<endl;
+                }
                 break;
             case 2:
                 manager.remove_coffee_shop();

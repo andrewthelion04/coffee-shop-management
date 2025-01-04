@@ -1,1 +1,2 @@
-coffee_shop_city,coffee_shop_address,client_name,product_name,quantity,price
+coffee_shop_city,coffee_shop_address,client_name,products_names_and_quantities,price
+Bucuresti,Splai 100,marian,2 Latte;1 Pepsi;,22
