@@ -1,4 +1,3 @@
-
 #ifndef MANAGER_H
 #define MANAGER_H
 
@@ -6,14 +5,15 @@
 #include<iostream>
 
 // class that represents a manager, which inherits the Employee class
-class Manager: public Employee {
+class Manager : public Employee {
 private:
     string position = "Manager";
 
 public:
     // constructor which initializes the manager with the given name, surname, start_shift, end_shift, position and salary
     Manager(string name, string surname, string start_shift, string end_shift, string position, float salary)
-        : Employee(name, surname, start_shift, end_shift, position, salary) {}
+        : Employee(name, surname, start_shift, end_shift, position, salary) {
+    }
 
 
     // method to get the position of the manager
@@ -25,6 +25,7 @@ public:
     float calculate_salary() const override {
         return salary;
     }
+
     // destructor to free the memory allocated for the manager
     ~Manager() = default;
 };

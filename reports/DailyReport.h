@@ -2,7 +2,6 @@
 #define REPORT_H
 
 
-
 class DailyReport {
 private:
     string coffee_shop_city;
@@ -19,12 +18,20 @@ private:
     double profit = 0.0;
 
 public:
-    DailyReport(string coffee_shop_city, string coffee_shop_address, string date, double total_salaries, double total_bills, double total_sales_order,
-        double total_acquisitions, double total_cost_special_events, double total_sales_special_events, double total_expenses,
-        double total_sales, double profit) : coffee_shop_city(std::move(coffee_shop_city)),coffee_shop_address(std::move(coffee_shop_address)),
-        date(std::move(date)), total_salaries(total_salaries), total_bills(total_bills),total_sales_orders(total_sales_order), total_acquisitions(total_acquisitions),
-        total_cost_special_events(total_cost_special_events), total_sales_special_events(total_sales_special_events), total_expenses(total_expenses),
-        total_sales(total_sales), profit(profit) {}
+    DailyReport(string coffee_shop_city, string coffee_shop_address, string date, double total_salaries,
+                double total_bills, double total_sales_order,
+                double total_acquisitions, double total_cost_special_events, double total_sales_special_events,
+                double total_expenses,
+                double total_sales, double profit) : coffee_shop_city(std::move(coffee_shop_city)),
+                                                     coffee_shop_address(std::move(coffee_shop_address)),
+                                                     date(std::move(date)), total_salaries(total_salaries),
+                                                     total_bills(total_bills), total_sales_orders(total_sales_order),
+                                                     total_acquisitions(total_acquisitions),
+                                                     total_cost_special_events(total_cost_special_events),
+                                                     total_sales_special_events(total_sales_special_events),
+                                                     total_expenses(total_expenses),
+                                                     total_sales(total_sales), profit(profit) {
+    }
 
     string get_coffee_shop_city() const {
         return coffee_shop_city;
@@ -91,10 +98,7 @@ public:
     }
 
     ~DailyReport() = default;
-
-
 };
-
 
 
 #endif //REPORT_H

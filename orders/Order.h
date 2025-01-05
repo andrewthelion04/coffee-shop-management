@@ -1,5 +1,3 @@
-
-
 #ifndef ORDER_H
 #define ORDER_H
 
@@ -13,7 +11,7 @@ using namespace std;
 class Order {
 private:
     // encapsulation of the attributes
-    vector<OrderedProduct*> ordered_products;
+    vector<OrderedProduct *> ordered_products;
     double total_price = 0.0;
 
 public:
@@ -26,7 +24,7 @@ public:
     }
 
     // getter for the vector of ordered products
-    vector<OrderedProduct*> get_ordered_products() const {
+    vector<OrderedProduct *> get_ordered_products() const {
         return ordered_products;
     }
 
@@ -37,7 +35,7 @@ public:
 
     // method to calculate the total price of the order
     void calculate_total_price() {
-        for(auto& product : ordered_products) {
+        for (auto &product: ordered_products) {
             total_price += product->get_quantity() * product->get_price();
         }
     }
@@ -50,7 +48,6 @@ public:
     // destructor to free the memory allocated for the ordered products
     ~Order() = default;
 };
-
 
 
 #endif //ORDER_H

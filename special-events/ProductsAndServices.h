@@ -14,7 +14,9 @@ private:
 
 public:
     // constructor which initializes the product or service with the given name, type, cost and quantity
-    ProductsAndServices(string name, string type, double cost, int quantity) : name(name), type(type), cost(cost), quantity(quantity) {}
+    ProductsAndServices(string name, string type, double cost, int quantity) : name(name), type(type), cost(cost),
+                                                                               quantity(quantity) {
+    }
 
     // getters for the attributes of the product or service
     string get_product_name() const {
@@ -35,7 +37,6 @@ public:
 
     ~ProductsAndServices() = default;
 };
-
 
 
 #endif //PRODUCTSANDSERVICES_H

@@ -1,4 +1,3 @@
-
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
@@ -20,7 +19,9 @@ private:
 public:
     // constructor which initializes the product with the given name, type, purchase price, sale price and quantity
     Product(string name, string type, double purchase_price, double sale_price, int quantity)
-        :name(std::move(name)), type(std::move(type)), purchase_price(purchase_price), sale_price(sale_price), quantity(quantity) {}
+        : name(std::move(name)), type(std::move(type)), purchase_price(purchase_price), sale_price(sale_price),
+          quantity(quantity) {
+    }
 
     // getters for the attributes of the product
     string get_name() const {
@@ -53,7 +54,6 @@ public:
 
     ~Product() = default; // destructor
 };
-
 
 
 #endif //PRODUCT_H

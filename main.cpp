@@ -6,9 +6,7 @@
 using namespace std;
 
 // main function
-int main()
-{
-
+int main() {
     int select_language;
     string language;
     // user input for the language used in the .csv files
@@ -25,11 +23,11 @@ int main()
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Invalid input! Please enter a number." << endl << endl;
-            cout<<"Press any key to continue...";
+            cout << "Press any key to continue...";
             cin.get();
         }
 
-        switch(select_language) {
+        switch (select_language) {
             case 1:
                 language = "English";
                 break;
@@ -40,11 +38,10 @@ int main()
                 return 0;
             default:
                 cout << "Invalid choice! Please try again!" << endl;
-                cout<<"Press any key to continue...";
+                cout << "Press any key to continue...";
                 cin.get();
         }
-
-    }while(select_language != 1 && select_language != 2);
+    } while (select_language != 1 && select_language != 2);
 
     // initialize the .csv files
     initialize_employees_file(language);
@@ -55,11 +52,10 @@ int main()
     initialize_coffee_shops_file(language);
 
     // create a Singleton instance of the CoffeeShopManager class
-    CoffeeShopManager* manager = CoffeeShopManager::getInstance();
+    CoffeeShopManager *manager = CoffeeShopManager::getInstance();
 
     // display the main menu
     main_menu(manager);
 
     return 0;
 }
-

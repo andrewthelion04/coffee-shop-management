@@ -1,5 +1,3 @@
-
-
 #ifndef POSITION_H
 #define POSITION_H
 #include <string>
@@ -15,10 +13,13 @@ protected:
     string end_shift;
     string position;
     double salary = 0.0;
+
 public:
     // constructor which initializes the employee with the given name, surname, start_shift, end_shift, position and salary
-    Employee( string name, string surname, string start_shift, string end_shift, string position, float salary)
-        : name(name), surname(surname), start_shift(start_shift), end_shift(end_shift), position(position), salary(salary) {}
+    Employee(string name, string surname, string start_shift, string end_shift, string position, float salary)
+        : name(name), surname(surname), start_shift(start_shift), end_shift(end_shift), position(position),
+          salary(salary) {
+    }
 
 
     // pure virtual method to calculate the salary of the employee
@@ -51,7 +52,6 @@ public:
     // destructor to free the memory allocated for the employee
     ~Employee() = default;
 };
-
 
 
 #endif //POSITION_H

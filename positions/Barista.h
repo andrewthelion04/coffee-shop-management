@@ -1,4 +1,3 @@
-
 #ifndef BARISTA_H
 #define BARISTA_H
 
@@ -9,7 +8,7 @@
 using namespace std;
 
 // class that represents a barista, which inherits the Employee class
-class Barista: public Employee {
+class Barista : public Employee {
 private:
     string position = "Barista";
     int num_coffees_made;
@@ -17,7 +16,8 @@ private:
 public:
     // constructor which initializes the barista with the given name, surname, start_shift, end_shift, position and salary
     Barista(string name, string surname, string start_shift, string end_shift, string position, float salary)
-        : Employee(name, surname, start_shift, end_shift, position, salary) {}
+        : Employee(name, surname, start_shift, end_shift, position, salary) {
+    }
 
     // method to get the position of the barista
     string get_position() const override {
@@ -40,7 +40,6 @@ public:
 
     ~Barista() = default;
 };
-
 
 
 #endif //BARISTA_H
