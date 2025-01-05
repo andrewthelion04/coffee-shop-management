@@ -20,6 +20,7 @@ void special_events_menu(CoffeeShop *shop) {
         cin >> choice;
         cin.ignore();
 
+        // check if the input is valid
         if (cin.fail()) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -29,13 +30,14 @@ void special_events_menu(CoffeeShop *shop) {
             continue;
         }
 
+        // switch case for the user's choice
         switch(choice) {
             case 1:
                 try {
                     shop->add_special_event();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) {// catch the exception thrown when the special event already exists
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -46,7 +48,7 @@ void special_events_menu(CoffeeShop *shop) {
                     shop->remove_special_event();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { //catch the exception thrown when the special event is not found
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -57,7 +59,7 @@ void special_events_menu(CoffeeShop *shop) {
                     shop->display_special_events();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(string& message) {
+                }catch(string& message) { //catch the exception thrown when there are no special events
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -68,7 +70,7 @@ void special_events_menu(CoffeeShop *shop) {
                     shop->display_special_event_requirements();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(string& message) {
+                }catch(string& message) {//if the special event is not found
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -111,13 +113,14 @@ void employee_operations_menu(CoffeeShop* shop) {
             continue;
         }
 
+        // switch case for the user's choice
         switch(choice) {
             case 1:
                 try {
                     shop->add_employee();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { //catch the exception thrown when the name or surname is not valid
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -128,7 +131,7 @@ void employee_operations_menu(CoffeeShop* shop) {
                     shop->remove_employee();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { //catch the exception thrown when the employee is not found / when there are no employees
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -139,7 +142,7 @@ void employee_operations_menu(CoffeeShop* shop) {
                     shop->display_employees_information();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { //catch the exception thrown when there are no employees
                     cout << message << endl << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -150,7 +153,7 @@ void employee_operations_menu(CoffeeShop* shop) {
                     shop->display_employees_shifts();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { //catch the exception thrown when there are no employees
                     cout << message << endl << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -190,13 +193,14 @@ void product_operations_menu(CoffeeShop* shop) {
             continue;
         }
 
+        // switch case for the user's choice
         switch(choice) {
             case 1:
                 try {
                     shop->add_product();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { // catch the exception thrown when the name or the quantity is not valid
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -207,7 +211,7 @@ void product_operations_menu(CoffeeShop* shop) {
                     shop->delete_product();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { //catch the exception thrown when the product is not found / when there are no products
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -218,7 +222,7 @@ void product_operations_menu(CoffeeShop* shop) {
                     shop->display_products();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { //catch the exception thrown when there are no products
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -259,21 +263,25 @@ void coffee_shop_select_menu(CoffeeShopManager* manager) {
             continue;
         }
 
+        // switch case for the user's choice
         switch(choice) {
             case 1:
+                // call the employee operations menu
                 employee_operations_menu(selected_shop);
             break;
             case 2:
+                // call the product operations menu
                 product_operations_menu(selected_shop);
             break;
             case 3:
                 try {
                     selected_shop->place_order();
-                }catch(string& message) {
+                }catch(string& message) { //catch the exception thrown when there are no products / when there are not enough employees
                     cout << message << endl;
                 }
             break;
             case 4:
+                // call the special events menu
                 special_events_menu(selected_shop);
             break;
             case 5:
@@ -308,14 +316,17 @@ void reports_menu(CoffeeShopManager* manager) {
             continue;
         }
 
+        // switch case for the user's choice
         switch (choice) {
             case 1:
                 try {
+                    // call the method to generate daily reports
                     manager->generate_daily_reports();
+                    // call the method to go to the next day
                     manager->go_to_next_day();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { //catch the exception thrown when there are no coffee shops
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -326,7 +337,7 @@ void reports_menu(CoffeeShopManager* manager) {
                     manager->print_daily_reports();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { //catch the exception thrown when there are no coffee shops
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -337,7 +348,7 @@ void reports_menu(CoffeeShopManager* manager) {
                     manager->print_detailed_daily_reports();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) { //catch the exception thrown when there are no coffee shops
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -386,7 +397,7 @@ void main_menu(CoffeeShopManager* manager) {
             case 1:
                 try {
                     manager->add_coffee_shop();
-                }catch(const char* msg) {
+                }catch(const char* msg) {//catching the exception thrown by the add_coffee_shop method
                     cout<< msg << endl << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -397,7 +408,7 @@ void main_menu(CoffeeShopManager* manager) {
             case 2:
                 try {
                     manager->remove_coffee_shop();
-                }catch(const char* msg) {
+                }catch(const char* msg) {//catching the exception thrown by the remove_coffee_shop method
                     cout<< msg << endl << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -410,7 +421,7 @@ void main_menu(CoffeeShopManager* manager) {
                     manager->display_coffee_shops();
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch(const char* message) {
+                }catch(const char* message) {//catching the exception thrown by the display_coffee_shops method
                     cout << message << endl << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
@@ -421,7 +432,7 @@ void main_menu(CoffeeShopManager* manager) {
                     coffee_shop_select_menu(manager);
                     cout<<"Press any key to continue...";
                     cin.get();
-                }catch (const char* message) {
+                }catch (const char* message) {//catching the exception thrown by the choose_coffee_shop method
                     cout << message << endl;
                     cout<<"Press any key to continue...";
                     cin.get();
