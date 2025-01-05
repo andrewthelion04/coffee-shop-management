@@ -827,7 +827,7 @@ public:
                 "," << special_event->get_total_costs() << endl;
         special_events_file.close();
 
-        cout << "The special event was successfully added!" << endl << endl;
+        cout << "Special event successfully added!" << endl << endl;
     }
 
     void remove_special_event() {

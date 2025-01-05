@@ -1,1 +1,4 @@
 coffee_shop_city,coffee_shop_address,employee_name,employee_surname,position,salary,shift_start,shift_end
+Bucuresti,Unirii 22,Ion,Ion,Barista,2000,08:00,16:00
+Bucuresti,Unirii 22,Maria,Maria,Waiter,2400,12:00,20:00
+Bucuresti,Unirii 22,Marian,Marian,Manager,4000,12:00,20:00
