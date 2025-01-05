@@ -18,21 +18,28 @@
 
 using namespace std;
 
+//class that represents a coffee shop
 class CoffeeShop {
+    //encapsulation of the attributes
 private:
-    string coffee_shop_address;
-    string coffee_shop_city;
-    string coffee_shop_size;
-    vector<Employee*> employees; //utilizare template-uri pentru a evita duplicarea codului
-    vector<Product*> all_products;
-    vector<Product*> new_products;
-    vector<Client*> clients;
-    vector<Order*> orders;
-    vector<SpecialEvent*> special_events;
+    string coffee_shop_address; // attribute for the address of the coffee shop
+    string coffee_shop_city; // attribute for the city where the coffee shop is located
+    string coffee_shop_size; // attribute for the size of the coffee shop
+
+    // using templates to avoid code duplication
+    vector<Employee*> employees; // vector of objects of type Employee
+    vector<Product*> all_products; // vector of objects of type Product
+    vector<Product*> new_products; // vector of new products added to the coffee shop (used for the daily report)
+    vector<Client*> clients; // vector of objects of type Client
+    vector<Order*> orders; // vector of objects of type Order
+    vector<SpecialEvent*> special_events; // vector of objects of type SpecialEvent
 
 public:
+    //constructor which initializes the coffee shop with the given address, city and size
     CoffeeShop(string coffee_shop_address, string coffee_shop_city, string coffee_shop_size) : coffee_shop_address(coffee_shop_address), coffee_shop_city(coffee_shop_city), coffee_shop_size(coffee_shop_size) {}
 
+
+    // getters for the coffee shop address, city and size
     string get_coffee_shop_address() {
         return coffee_shop_address;
     }
@@ -45,22 +52,28 @@ public:
         return coffee_shop_size;
     }
 
-    vector<Product*> get_new_products() {
-        return new_products;
+    // method to clear the new products vector
+    void clear_new_products() {
+        new_products.clear();
     }
 
-    vector<Order*> get_orders() {
-        return orders;
+    // method to clear the orders vector
+    void clear_orders() {
+        orders.clear();
     }
 
-    vector<SpecialEvent*> get_special_events() {
-        return special_events;
+    // method to clear the special events vector
+    void clear_special_events() {
+        special_events.clear();
     }
 
-    void add_employee() {
+    //methods to add, remove and get employees, products, orders and special events
+
+    void add_employee() {// method to add an employee to the coffee shop (in the .csv file and in the vector)
         string name, surname, position, salary, shift_start, shift_end;
         int position_choice;
 
+        // user input for the employee details
         cout << "Adding an employee to the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << "!" << endl;
         cout << "Enter the name of the employee: ";
         getline(cin, name);
@@ -105,8 +118,10 @@ public:
         cout << "Enter the shift end (HH:MM) : ";
         getline(cin, shift_end);
 
+        // check if the shift is valid
         is_shift_valid(shift_start, shift_end);
 
+        // add the employee to the vector of all employees
         Employee* employee = nullptr;
         switch (position_choice) {
             case 1:
@@ -124,6 +139,7 @@ public:
 
         delete employee;
 
+        // append the employee to the .csv file
         ofstream employees_file("employees.csv", ios::app);
         if (!employees_file.is_open()) {
             cout << "Error: File not opened" << endl;
@@ -132,13 +148,16 @@ public:
 
         employees_file << coffee_shop_city << "," << coffee_shop_address << "," << name << "," << surname << "," << position << "," << salary << "," << shift_start << "," << shift_end << endl;
         employees_file.close();
+
+        cout << "The employee was successfully added!" << endl << endl;
     }
 
-    void remove_employee() {
-        if(employees.empty()) {
+    void remove_employee() { // method to remove an employee from the coffee shop (from the .csv file and from the vector)
+        if(employees.empty()) {// check if there are employees in the coffee shop
             throw "There are no employees!\n";
         }
 
+        // user input for the employee details
         string name, surname, position;
         cout << "Removing an employee from the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << "!" << endl;
 
@@ -151,7 +170,7 @@ public:
         cout<<"Enter the position of the employee: ";
         getline(cin, position);
 
-
+        // read the employees from the .csv file and check if the employee exists
         ifstream input_file("employees.csv");
         vector<string> lines;
         string line;
@@ -161,7 +180,7 @@ public:
             throw "Error: File not opened";
         }
 
-        //citeste header-ul si il adauga in vector
+        // read the header and add it to the vector
         getline(input_file, line);
         lines.push_back(line);
 
@@ -178,7 +197,7 @@ public:
             getline(ss,read_shift_start, ',');
             getline(ss,read_shift_end, ',');
 
-
+            // if the employee is found, set the flag to true
             if(name == read_name && surname == read_surname && position == read_position) {
                 employee_found = true;
             }
@@ -188,6 +207,7 @@ public:
         }
         input_file.close();
 
+        // if the employee is found, remove it from the .csv file and from the vector
         if(employee_found) {
             ofstream outputFile("employees.csv");
             if(!outputFile.is_open()) {
@@ -227,16 +247,18 @@ public:
         }
     }
 
-    void add_product() {
+    void add_product() { // method to add a product to the coffee shop (in the .csv file and in the vector)
         string product_name, type, purchase_price, sale_price, quantity;
         int type_choice;
 
+        // user input for the product details
         cout<<"Adding a product to the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << "!" << endl;
         cout<<"Select the type of product you wish to add!\n" <<
         "1.Coffee\n" << "2.Beverage\n" << "3.Desert\n";
         cout << "Your choice: ";
         cin >> type_choice;
         cin.ignore();
+
 
         if(type_choice < 1 || type_choice > 3) {
             throw "Invalid choice!";
@@ -266,10 +288,12 @@ public:
         cin >> sale_price;
         cin.ignore();
 
+        // add the product to the vector of all products and to the vector of new products
         all_products.push_back(new Product(product_name, type, stof(purchase_price), stof(sale_price), stoi(quantity)));
         new_products.push_back(new Product(product_name, type, stof(purchase_price), stof(sale_price), stoi(quantity)));
 
 
+        // append the product to the .csv file
         ofstream products_file("products.csv", ios::app);
         if(!products_file.is_open()) {
             cout << "Error: File not opened" << endl;
@@ -278,17 +302,19 @@ public:
 
         products_file << coffee_shop_city << "," << coffee_shop_address << "," << product_name << "," << type << "," << purchase_price << "," << sale_price << "," << quantity << endl;
         products_file.close();
+
+        cout << "Product added successfully!" << endl << endl;
     }
 
-    void delete_product() {
-        if(all_products.empty()) {
+    void delete_product() { // method to remove a product from the coffee shop (from the .csv file and from the vector)
+        if(all_products.empty()) {// check if there are products in the coffee shop
             throw "There are no products!\n";
         }
 
         string product_name, type;
         int type_choice;
         cout << "Removing a product from the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << "!" << endl;
-
+        // user input for the product details
         cout << "Select the type of product you wish to remove:\n" <<
             "1.Coffee\n" << "2.Beverage\n" << "3.Desert\n";
         cin >> type_choice;
@@ -311,7 +337,7 @@ public:
 
         cout << "Enter the name of the product: ";
         getline(cin, product_name);
-
+        // read the products from the .csv file and check if the product exists
         ifstream input_file("products.csv");
         vector<string> lines;
         string line;
@@ -345,7 +371,7 @@ public:
             }
         }
         input_file.close();
-
+        // if the product is found, remove it from the .csv file and from the vector
         if(product_found) {
             ofstream output_file("products.csv");
             if(!output_file.is_open()) {
@@ -383,8 +409,8 @@ public:
             throw "The product was not found!";
         }
     }
-
-    bool check_minimum_staff_required() {
+    // method to add a special event to the coffee shop (in the .csv file and in the vector)
+    bool check_minimum_staff_required() { // method to check if the coffee shop has the minimum staff required to place an order
         int barista_count = 0, waiter_count = 0, manager_count = 0;
 
         for(auto* employee : employees) {
@@ -418,21 +444,23 @@ public:
         return true;
     }
 
-    void place_order() {
-        if(all_products.empty()) {
+    void place_order() { // method to place an order at the coffee shop
+        if(all_products.empty()) {// check if there are available products to be bought in the coffee shop
             throw "The coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + " has no products available!\n";
 
         }
 
-        if(!check_minimum_staff_required()) {
-            throw "The coffee shop located in" + coffee_shop_city + " - " + coffee_shop_address + " does not have enough staff to place an order!\n"
+        if(!check_minimum_staff_required()) { // check if the coffee shop has the minimum staff required to place an order
+            throw "The coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + " does not have enough staff to place an order!\n";
         }
 
+        // user input for the client's full name
         string client_name;
         cout << "Order placement!" << endl;
         cout << "Insert the client's full name: ";
         getline(cin, client_name);
 
+        // check if the client already exists in the vector of clients
         Client* client = nullptr;
         for (auto* c : clients) {
             if (c->get_name() == client_name) {
@@ -441,23 +469,26 @@ public:
             }
         }
 
+        // if the client does not exist, create a new client and add it to the vector of clients
         if (!client) {
             client = new Client(client_name);
             clients.push_back(client);
         }
-
+        // call the client_order method
         client_order(client);
     }
 
-    void client_order(Client* client) {
+    void client_order(Client* client) { // auxiliary method that places the order for the specified client
         Order* order = new Order();
         string response = "no";
 
+        // user input for the products to be bought
         do {
             bool has_coffee = false, has_beverages = false, has_deserts = false;
             string product_name;
             int quantity;
 
+            // check if the coffee shop has coffees, beverages and deserts
             for (auto* product : all_products) {
                 if (product->get_type() == "Coffee") {
                     has_coffee = true;
@@ -471,7 +502,7 @@ public:
             }
 
             cout << "Available products to be bought at our coffee shop!" << endl;
-
+            // display the available products to be bought
             if (has_coffee) {
                 cout << "Coffees: " << endl;
                 for (auto* product : all_products) {
@@ -509,8 +540,8 @@ public:
                 throw "Cantitate invalida";
             }
 
-
-            try {
+            // check if the product exists and if there is enough quantity
+            try {// call the subtract_product method
                 subtract_product(product_name, quantity);
             } catch (const char* msg) {
                 cout << msg << endl;
@@ -518,6 +549,7 @@ public:
                 return;
             }
 
+            // add the product to the order
             for (auto product = all_products.begin(); product != all_products.end(); ++product) {
                 if ((*product)->get_name() == product_name) {
                     order->add_product(product_name, quantity, (*product)->get_sale_price());
@@ -531,19 +563,21 @@ public:
             } while (response != "yes" && response != "no");
         } while (response == "yes");
 
+        // calculate the total price of the order
         order->calculate_total_price();
 
-        // implementarea sistemului de fidelitate: la fiecare a 5-a comanda clientul primeste 10% reducere
+        // check if the client has placed at least 5 orders and if so, apply a 10% discount (fidelity system)
         if((client->get_number_of_orders() + 1) % 5 == 0) {
             cout << client->get_name() << " has received a 10% discount for being a loyal customer!" << endl;
             order->set_total_price(order->get_total_price() * 0.9);
         }
 
+        // add the order to the vector of coffee shop orders (used for daily report) and to the client's vector of orders
         orders.push_back(order);
         client->add_order(order);
 
         string ordered_products;
-
+        // write the order to the .csv file
         for (const auto& product : order->get_ordered_products()) {
             ordered_products += to_string(product->get_quantity()) + " " + product->get_product_name();
             if (&product != &order->get_ordered_products().back()) {
@@ -560,14 +594,16 @@ public:
         orders_file << coffee_shop_city << "," << coffee_shop_address << "," << client->get_name() << "," << ordered_products << "," << order->get_total_price() << endl;
         orders_file.close();
 
-        cout << "Order has been placed! The total price is: " << order->get_total_price() << " RON" << endl;
+        cout << "Order has been placed! The total price is: " << order->get_total_price() << " RON" << endl << endl;
 
         delete order;
     }
 
-    void subtract_product(string product_name, int quantity) {
+    void subtract_product(string product_name, int quantity) { // auxiliary method used to subtract a product from the coffee shop (from the .csv file and from the vector)
+        // check if the product exists and if there is enough quantity
         for (auto product = all_products.begin(); product != all_products.end(); ++product) {
             if ((*product)->get_name() == product_name) {
+                // if the product exists and there is enough quantity, subtract the quantity
                 if ((*product)->get_quantity() >= quantity) {
                     (*product)->set_quantity((*product)->get_quantity() - quantity);
 
@@ -619,14 +655,14 @@ public:
 
                     return;
                 } else {
-                    throw "Insufficient quantity!";
+                    throw "Insufficient quantity!\n";
                 }
             }
         }
-        throw "Product not found!";
+        throw "Product not found!\n";
     }
 
-    void add_special_event() {
+    void add_special_event() { // method to add a special event to the coffee shop (in the .csv file and in the vector)
         string name, description, start_time, product_name, type, cost, quantity;
         int type_choice;
         string response;
@@ -642,8 +678,10 @@ public:
         cout << "Specify the start time of the event (HH:MM): ";
         getline(cin, start_time);
 
+        // create a new special event object
         SpecialEvent *special_event = new SpecialEvent(name, description, start_time);
 
+        // user input for the requirements of the special event
         do {
             cout << "Select the type of requirements for the event:\n"
                     << "1. Food and beverages\n"
@@ -657,7 +695,7 @@ public:
                 case 1:
                     type = "Food and beverages";
                     cout << "Enter the name of the product: ";
-                    getline(cin, name);
+                    getline(cin, product_name);
 
                     cout << "Enter the quantity: ";
                     getline(cin, quantity);
@@ -748,6 +786,7 @@ public:
                     cout << "Invalid choice!" << endl;
                     break;
             }
+            // add the required product to the special event's vector of required products
             special_event->add_required_product(product_name, type, stof(cost), stoi(quantity));
 
             do {
@@ -756,10 +795,12 @@ public:
             } while (response != "yes" && response != "no");
         } while (response == "yes");
 
-
+        // calculate the total costs of the special event
         special_event->calculate_total_costs();
+        // add the special event to the vector of special events
         special_events.push_back(special_event);
 
+        // append the special event to the .csv file
         ofstream special_events_file("special_events.csv", ios::app);
         if (!special_events_file.is_open()) {
             cout << "Error: File not opened" << endl;
@@ -769,13 +810,17 @@ public:
         special_events_file << coffee_shop_city << "," << coffee_shop_address << "," << name << "," << description << start_time <<
                 "," << special_event->get_total_costs() << endl;
         special_events_file.close();
+
+        cout << "The special event was successfully added!" << endl << endl;
     }
 
     void remove_special_event() {
+        // check if there are special events booked for today
         if(special_events.empty()) {
-            throw "There are no special events available!";
+            throw "There are no special events booked for today!\n";
         }
 
+        // user input for the special event to be removed
         cout << "Select the special event you wish to remove!" << endl;
         int events_index = 0;
         int events_choice;
@@ -791,7 +836,7 @@ public:
         }
 
         SpecialEvent* chosen_event = special_events[events_choice - 1];
-
+        // remove the special event from the vector of special events
         for(auto event = special_events.begin(); event != special_events.end(); ++event) {
             if((*event)->get_name() == chosen_event->get_name()) {
                 special_events.erase(event);
@@ -799,6 +844,7 @@ public:
             }
         }
 
+        // remove the special event from the .csv file
         ifstream input_file("special_events.csv");
         vector<string> lines;
         string line;
@@ -831,10 +877,11 @@ public:
             output_file << l << endl;
         }
 
+        cout << "Special event removed!" << endl << endl;
         output_file.close();
     }
 
-    void display_special_events() {
+    void display_special_events() {// method to display the special events booked at the coffee shop
         if(special_events.empty()) {
             throw "There are no special events booked at the coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + "!" + "\n";
         }
@@ -843,11 +890,11 @@ public:
         for(auto* special_event : special_events) {
             cout << ++special_event_index << "." << special_event->get_name() << endl;
             cout << "\t->Description: " << special_event->get_description() << endl;
-            cout << "\t->Estimated costs: " << special_event->get_total_costs() << endl;
+            cout << "\t->Estimated costs: " << special_event->get_total_costs() << "RON" << endl;
         }
     }
 
-    void display_special_event_requirements() {
+    void display_special_event_requirements() { // method to display the requirements for a special event
         if(special_events.empty()) {
             throw "There are no special events booked at the coffee shop located in" + coffee_shop_city + " - " + coffee_shop_address + "!" + "\n";
         }
@@ -883,7 +930,7 @@ public:
             cout << "Food and beverages: " << endl;
             for(auto* required_product : event->get_required_products()) {
                 if(required_product->get_type() == "Food and beverages") {
-                    cout << required_product->get_product_name() << " - " << required_product->get_quantity() << " - " << required_product->get_cost() << " RON" << endl;
+                    cout << "\t->" <<required_product->get_product_name() << " - " << required_product->get_quantity() << " - " << required_product->get_cost() << " RON" << endl;
                 }
             }
         }
@@ -906,42 +953,50 @@ public:
             }
         }
 
+        // display the total costs of the special event
         cout << "Total costs: " << event->get_total_costs() << " RON" << endl << endl;
     }
 
 
-    void display_employees_information() {
+    void display_employees_information() { // method to display the information regarding the employees at the coffee shop
         int index = 0;
 
-        if(employees.size() == 0) {
+        if(employees.size() == 0) { // check if there are employees in the coffee shop
             throw "There are no employees at the coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + "!";
         }
 
+        // display the information regarding the employees
         cout<<"Information regarding the employees at the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << ":" << endl;
         for(auto& employee: employees) {
             cout << "Employee " << ++index << ": " << employee->get_name() << " " << employee->get_surname() << endl;
             cout << "\t->Position: " << employee->get_position() << endl;
-            cout << "\t->Salary: " << employee->get_salary() << endl;
+            cout << "\t->Salary: " << employee->get_salary() << "RON" << endl;
             cout << "\t->Shift: " << employee->get_start_shift() << " - " << employee->get_end_shift() << endl;
             cout << endl;
 
         }
     }
 
-    void display_employees_shifts() {
-        if(employees.size() == 0) {
+    void display_employees_shifts() { // method to display the shifts of the employees at the coffee shop
+        if(employees.size() == 0) { // check if there are employees in the coffee shop
             throw "There are no employees at the coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + "!";
         }
 
+        // display the shifts of the employees
         cout << "List of all the employees and their shifts at the coffee shop located in " << coffee_shop_city << " - "
                 << coffee_shop_address << ":" << endl;
         for(auto& employee : employees){
             cout << employee->get_name() << " " << employee->get_surname() << " -> " <<employee->get_start_shift() << " - " << employee->get_end_shift() << endl;
-            cout << endl;
+            if(employee == employees.back()) {
+                cout << endl;
+            }
         }
     }
 
-    void display_products() {
+    void display_products() { // method to display the products available at the coffee shop
+        if(all_products.empty()) { // check if there are products available at the coffee shop
+            throw "There are no products available at the coffee shop located in " + coffee_shop_city + " - " + coffee_shop_address + "!\n";
+        }
         int index = 0;
         cout << "List of all the products available at the coffee shop located in " << coffee_shop_city << " - " << coffee_shop_address << ":" << endl;
         for(auto product = all_products.begin(); product != all_products.end(); ++product) {
@@ -950,7 +1005,7 @@ public:
         cout<<endl;
     }
 
-    static void is_salary_valid(string salary) {
+    static void is_salary_valid(string salary) {// method to check if the salary is valid
         for(char& c: salary) {
             if(!isdigit(c)) {
                 throw "Invalid salary! Please use only digits!";
@@ -958,7 +1013,7 @@ public:
         }
     }
 
-    static void is_shift_valid(string shift1, string shift2) {
+    static void is_shift_valid(string shift1, string shift2) { // method to check if the shift is valid
         if((shift1.length() != 5 || shift1[2] != ':') || (shift2.length() != 5 || shift2[2] != ':')) {
             throw "Invalid shift format! Please use HH:MM!";
         }
@@ -983,7 +1038,7 @@ public:
         }
     }
 
-    static bool is_name_valid(string name) {
+    static bool is_name_valid(string name) { // method to check if the name is valid
         for(char& c: name) {
             if(!isalpha(c)) {
                 return false;
@@ -992,8 +1047,8 @@ public:
         return true;
     }
 
-    //determinarea salariilor ce trebuie achitate pe o luna intreaga
-    double calculate_total_salaries() {
+
+    double calculate_total_salaries() { // method to calculate the total salaries for the employees at the coffee shop
         double total_salaries = 0.0;
 
         for(auto* employee : employees) {
@@ -1013,29 +1068,29 @@ public:
         return total_salaries / 21; //there are an average of 21 working days in a month
     }                   // we only need the total salaries for 1 day
 
-    // determinarea sumei de plata la factura pe o luna intreaga
+    // method to calculate the total bills for the coffee shop
     double calculate_total_bills() {
         double total_bill = 0.0;
-        std::random_device rd;  // pentru generare seed
+        std::random_device rd;  // obtain a random seed
         std::mt19937 gen(rd());
 
         if (coffee_shop_size == "Small") {
             std::uniform_real_distribution<float> dist(1000, 1500);
-            total_bill = dist(gen);
+            total_bill = dist(gen);     // generate a random bill between 1000 and 1500 RON for the Small coffee shop
         }
         else if(coffee_shop_size == "Medium") {
             std::uniform_real_distribution<float> dist(1500, 2000);
-            total_bill = dist(gen);
+            total_bill = dist(gen);     // generate a random bill between 1500 and 2000 RON for the Medium coffee shop
         }
         else {
             std::uniform_real_distribution<float> dist(2000, 2500);
-            total_bill = dist(gen);
+            total_bill = dist(gen);     // generate a random bill between 2000 and 2500 RON for the Large coffee shop
         }
 
         return total_bill / 21; //there are an average of 21 working days in a month
     }                       // we only need the bill for 1 day
 
-    double calculate_total_sales() {
+    double calculate_total_sales() { // method to calculate the total sales from orders at the coffee shop
         double total_sales = 0.0;
 
         for(auto* order : orders) {
@@ -1045,7 +1100,7 @@ public:
         return total_sales;
     }
 
-    double calculate_total_acquisitions() {
+    double calculate_total_acquisitions() { // method to calculate the total sum spent on acquisitions for the coffee shop for a day
         double total_acquisitions = 0.0;
 
         for(auto* products : new_products) {
@@ -1055,7 +1110,7 @@ public:
         return total_acquisitions;
     }
 
-    double calculate_total_cost_special_events() {
+    double calculate_total_cost_special_events() { // method to calculate the total costs for the special events at the coffee shop for a day
         double total_cost_special_events = 0.0;
 
         for(auto* special_event : special_events) {
@@ -1066,14 +1121,14 @@ public:
     }
 
 
-    double calculate_total_sales_special_events() {
+    double calculate_total_sales_special_events() { // method to calculate the total sales for the special events at the coffee shop for a day
         double total_sales_special_events = 0.0;
         std::random_device rd;
         std::mt19937 gen(rd());
 
         for(auto* special_event : special_events) {
             std::uniform_real_distribution<double> dist(0.5*special_event->get_total_costs(), 1.5*special_event->get_total_costs());
-            total_sales_special_events += dist(gen);
+            total_sales_special_events += dist(gen);    // the sales of the events can vary between 50% and 150% of the total costs
         }
 
         return total_sales_special_events;
@@ -1081,7 +1136,7 @@ public:
 
 
 
-    ~CoffeeShop() = default;
+    ~CoffeeShop() = default; // destructor
 };
 
 

@@ -109,7 +109,8 @@
 				11,
 				12,
 				13,
-				14
+				14,
+				15
 			]
 		}
 	],
@@ -123,7 +124,7 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "initialize_files.h",
+			"path" : "files_initialization/initialize_files.h",
 			"sourceGroupIndex" : 1
 		},
 		{
@@ -189,6 +190,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "reports/DailyReport.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "menus/menus.h",
 			"sourceGroupIndex" : 1
 		}
 	],
