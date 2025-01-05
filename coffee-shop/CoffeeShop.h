@@ -822,7 +822,7 @@ public:
             return;
         }
 
-        special_events_file << coffee_shop_city << "," << coffee_shop_address << "," << name << "," << description <<
+        special_events_file << coffee_shop_city << "," << coffee_shop_address << "," << name << "," << description << "," <<
                 start_time <<
                 "," << special_event->get_total_costs() << endl;
         special_events_file.close();
