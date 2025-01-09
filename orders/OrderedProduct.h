@@ -13,27 +13,19 @@ private: // encapsulation of the attributes
 
 public:
     // constructor which initializes the ordered product with the given product name, quantity and price
-    OrderedProduct(string product_name, int quantity, double price)
-        : product_name(std::move(product_name)), quantity(quantity), price(price) {
-    }
+    OrderedProduct(string product_name, int quantity, double price);
 
     // getter for the product name
-    string get_product_name() const {
-        return product_name;
-    }
+    string get_product_name() const;
 
     // getter for the quantity
-    int get_quantity() const {
-        return quantity;
-    }
+    int get_quantity() const;
 
     // getter for the price
-    double get_price() const {
-        return price;
-    }
+    double get_price() const;
 
     // destructor to free the memory allocated for the ordered product
-    ~OrderedProduct() = default;
+    ~OrderedProduct();
 };
 
 

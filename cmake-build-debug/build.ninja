@@ -55,6 +55,96 @@ build CMakeFiles/coffee_shop_management.dir/main.cpp.obj: CXX_COMPILER__coffee_s
   OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
   OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir
 
+build CMakeFiles/coffee_shop_management.dir/coffee-shop/CoffeeShop.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/coffee-shop/CoffeeShop.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\coffee-shop\CoffeeShop.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\coffee-shop
+
+build CMakeFiles/coffee_shop_management.dir/coffee-shop/CoffeeShopManager.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/coffee-shop/CoffeeShopManager.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\coffee-shop\CoffeeShopManager.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\coffee-shop
+
+build CMakeFiles/coffee_shop_management.dir/files_initialization/initialize_files.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/files_initialization/initialize_files.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\files_initialization\initialize_files.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\files_initialization
+
+build CMakeFiles/coffee_shop_management.dir/menus/menus.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/menus/menus.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\menus\menus.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\menus
+
+build CMakeFiles/coffee_shop_management.dir/orders/Client.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/orders/Client.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\orders\Client.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\orders
+
+build CMakeFiles/coffee_shop_management.dir/orders/Order.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/orders/Order.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\orders\Order.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\orders
+
+build CMakeFiles/coffee_shop_management.dir/orders/OrderedProduct.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/orders/OrderedProduct.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\orders\OrderedProduct.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\orders
+
+build CMakeFiles/coffee_shop_management.dir/positions/Barista.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/positions/Barista.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\positions\Barista.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\positions
+
+build CMakeFiles/coffee_shop_management.dir/positions/Employee.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/positions/Employee.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\positions\Employee.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\positions
+
+build CMakeFiles/coffee_shop_management.dir/positions/Manager.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/positions/Manager.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\positions\Manager.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\positions
+
+build CMakeFiles/coffee_shop_management.dir/positions/Waiter.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/positions/Waiter.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\positions\Waiter.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\positions
+
+build CMakeFiles/coffee_shop_management.dir/products/Product.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/products/Product.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\products\Product.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\products
+
+build CMakeFiles/coffee_shop_management.dir/reports/DailyReport.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/reports/DailyReport.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\reports\DailyReport.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\reports
+
+build CMakeFiles/coffee_shop_management.dir/special-events/ProductsAndServices.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/special-events/ProductsAndServices.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\special-events\ProductsAndServices.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\special-events
+
+build CMakeFiles/coffee_shop_management.dir/special-events/SpecialEvent.cpp.obj: CXX_COMPILER__coffee_shop_management_unscanned_Debug C$:/Users/leupe/CLionProjects/coffee-shop-management/special-events/SpecialEvent.cpp || cmake_object_order_depends_target_coffee_shop_management
+  DEP_FILE = CMakeFiles\coffee_shop_management.dir\special-events\SpecialEvent.cpp.obj.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\coffee_shop_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\coffee_shop_management.dir\special-events
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target coffee_shop_management
@@ -63,7 +153,7 @@ build CMakeFiles/coffee_shop_management.dir/main.cpp.obj: CXX_COMPILER__coffee_s
 #############################################
 # Link the executable coffee_shop_management.exe
 
-build coffee_shop_management.exe: CXX_EXECUTABLE_LINKER__coffee_shop_management_Debug CMakeFiles/coffee_shop_management.dir/main.cpp.obj
+build coffee_shop_management.exe: CXX_EXECUTABLE_LINKER__coffee_shop_management_Debug CMakeFiles/coffee_shop_management.dir/main.cpp.obj CMakeFiles/coffee_shop_management.dir/coffee-shop/CoffeeShop.cpp.obj CMakeFiles/coffee_shop_management.dir/coffee-shop/CoffeeShopManager.cpp.obj CMakeFiles/coffee_shop_management.dir/files_initialization/initialize_files.cpp.obj CMakeFiles/coffee_shop_management.dir/menus/menus.cpp.obj CMakeFiles/coffee_shop_management.dir/orders/Client.cpp.obj CMakeFiles/coffee_shop_management.dir/orders/Order.cpp.obj CMakeFiles/coffee_shop_management.dir/orders/OrderedProduct.cpp.obj CMakeFiles/coffee_shop_management.dir/positions/Barista.cpp.obj CMakeFiles/coffee_shop_management.dir/positions/Employee.cpp.obj CMakeFiles/coffee_shop_management.dir/positions/Manager.cpp.obj CMakeFiles/coffee_shop_management.dir/positions/Waiter.cpp.obj CMakeFiles/coffee_shop_management.dir/products/Product.cpp.obj CMakeFiles/coffee_shop_management.dir/reports/DailyReport.cpp.obj CMakeFiles/coffee_shop_management.dir/special-events/ProductsAndServices.cpp.obj CMakeFiles/coffee_shop_management.dir/special-events/SpecialEvent.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\coffee_shop_management.dir

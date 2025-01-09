@@ -20,4 +20,19 @@ add_executable(coffee_shop_management
         special-events/ProductsAndServices.h
         reports/DailyReport.h
         menus/menus.h
+        coffee-shop/CoffeeShop.cpp
+        coffee-shop/CoffeeShopManager.cpp
+        files_initialization/initialize_files.cpp
+        menus/menus.cpp
+        orders/Client.cpp
+        orders/Order.cpp
+        orders/OrderedProduct.cpp
+        positions/Barista.cpp
+        positions/Employee.cpp
+        positions/Manager.cpp
+        positions/Waiter.cpp
+        products/Product.cpp
+        reports/DailyReport.cpp
+        special-events/ProductsAndServices.cpp
+        special-events/SpecialEvent.cpp
 )

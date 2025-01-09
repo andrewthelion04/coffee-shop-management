@@ -18,41 +18,24 @@ private:
 
 public:
     // constructor which initializes the product with the given name, type, purchase price, sale price and quantity
-    Product(string name, string type, double purchase_price, double sale_price, int quantity)
-        : name(std::move(name)), type(std::move(type)), purchase_price(purchase_price), sale_price(sale_price),
-          quantity(quantity) {
-    }
+    Product(string name, string type, double purchase_price, double sale_price, int quantity);
 
     // getters for the attributes of the product
-    string get_name() const {
-        return name;
-    }
+    string get_name() const;
 
-    string get_type() const {
-        return type;
-    }
+    string get_type() const;
 
-    double get_purchase_price() const {
-        return purchase_price;
-    }
+    double get_purchase_price() const;
 
-    double get_sale_price() const {
-        return sale_price;
-    }
+    double get_sale_price() const;
 
-    int get_quantity() const {
-        return quantity;
-    }
+    int get_quantity() const;
 
-    void set_quantity(int quantity) {
-        this->quantity = quantity;
-    }
+    void set_quantity(int quantity);
 
-    double get_acquisition_cost() const {
-        return purchase_price * quantity;
-    }
+    double get_acquisition_cost() const;
 
-    ~Product() = default; // destructor
+    ~Product(); // destructor
 };
 
 
