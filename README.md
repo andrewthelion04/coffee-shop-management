@@ -11,3 +11,6 @@ This is an Object-Oriented Programming (OOP) project developed in C++ to manage 
 - **Order Management**: Handle customer orders and track order details.
 - **Special Events**: Organize and manage special events with required products and services.
 - **Reports**: Generate various reports for the coffee shop's operations.
+
+
+**The additional requirements, such as the testing matrix, UML diagram and demo video can be found in the additional_requirements folder**
